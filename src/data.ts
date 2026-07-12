@@ -168,7 +168,6 @@ export const POPULAR_PACKAGES: TravelPackage[] = [
       "Speedboat Modern AC PP",
       "Makan Siang Box Istimewa & Buah Segar",
       "Perlengkapan Snorkeling Lengkap & Pelampung",
-      "Tiket Masuk TN Komodo & Ranger",
       "Air Mineral & Soft Drinks Dingin",
       "Pemandu Lokal Berlisensi Resmi"
     ],
@@ -176,7 +175,6 @@ export const POPULAR_PACKAGES: TravelPackage[] = [
       "AC Modern Speedboat Roundtrip",
       "Special Lunch Box & Fresh Fruits",
       "Full Snorkeling Gear & Life Jacket",
-      "Komodo National Park Entry & Ranger",
       "Cold Mineral Water & Soft Drinks",
       "Official Licensed Local Guide"
     ]
