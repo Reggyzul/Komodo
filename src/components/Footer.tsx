@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Mail, Phone, MapPin, Send, CheckCircle2, Instagram, Globe } from "lucide-react";
+import { Mail, Phone, MapPin, Send, CheckCircle2 } from "lucide-react";
 
 interface FooterProps {
   onNavigate?: (page: "home" | "destinations" | "fleet" | "packages" | "testimonials" | "faq", sectionId?: string) => void;
@@ -67,12 +67,16 @@ export default function Footer({ onNavigate, lang }: FooterProps) {
             {/* Social Icons */}
             <div className="flex space-x-4">
               <a href="https://instagram.com/KOMODOKAMU" target="_blank" rel="noopener noreferrer" className="flex items-center space-x-2 px-3 py-2 rounded-xl bg-white/[0.03] border border-white/5 text-slate-400 hover:text-brand-turquoise hover:border-brand-turquoise/30 hover:bg-brand-turquoise/10 transition-all duration-300">
-                <Instagram className="w-4 h-4" />
+                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/>
+                </svg>
                 <span className="text-[10px] font-bold font-sans">KOMODOKAMU</span>
               </a>
-              <a href="https://tiktok.com/@KAKA_BETA" target="_blank" rel="noopener noreferrer" className="flex items-center space-x-2 px-3 py-2 rounded-xl bg-white/[0.03] border border-white/5 text-slate-400 hover:text-brand-turquoise hover:border-brand-turquoise/30 hover:bg-brand-turquoise/10 transition-all duration-300">
-                <Globe className="w-4 h-4" />
-                <span className="text-[10px] font-bold font-sans">KAKA BETA</span>
+              <a href="https://www.tiktok.com/@kakabeta.01?_r=1&_t=ZS-97yAxf0wCKl" target="_blank" rel="noopener noreferrer" className="flex items-center space-x-2 px-3 py-2 rounded-xl bg-white/[0.03] border border-white/5 text-slate-400 hover:text-brand-turquoise hover:border-brand-turquoise/30 hover:bg-brand-turquoise/10 transition-all duration-300">
+                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                  <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.02 1.59 4.23.95.89 2.21 1.43 3.51 1.58.01 1.29-.01 2.58-.02 3.87-1.29-.07-2.53-.55-3.55-1.34-.67-.58-1.21-1.3-1.57-2.11-.02 2.92-.01 5.84-.02 8.75-.06 1.63-.58 3.24-1.5 4.58-1.24 1.63-3.18 2.63-5.21 2.76-2.15.11-4.32-.57-5.89-2.05-1.74-1.72-2.52-4.27-2.06-6.7.42-2.12 1.74-4.01 3.65-4.97.94-.46 1.98-.71 3.03-.73v3.91c-.81.04-1.61.32-2.25.82-.93.77-1.42 1.99-1.3 3.19.1 1.09.73 2.08 1.68 2.57.99.5 2.19.45 3.12-.13.88-.58 1.4-1.58 1.42-2.63-.02-3.41-.01-6.82-.01-10.23z"/>
+                </svg>
+                <span className="text-[10px] font-bold font-sans">kakabeta.01</span>
               </a>
             </div>
           </div>
