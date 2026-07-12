@@ -62,11 +62,11 @@ export default function Packages({ onSelectPackage, featuredLimit, lang }: Packa
                 className="bg-white rounded-[28px] overflow-hidden shadow-sm hover:shadow-[0_20px_50px_rgba(14,165,164,0.08)] border border-slate-200/50 hover:border-brand-turquoise/30 transition-all duration-500 flex flex-col h-full transform hover:-translate-y-2 group"
               >
                 {/* Cover Image Wrap with Badges */}
-                <div className="relative aspect-[4/3] overflow-hidden bg-slate-100">
+                <div className={`relative aspect-[4/3] overflow-hidden ${pkg.id === "pkg-2" ? "bg-[#D8DBD4]" : "bg-slate-100"}`}>
                   <img
                     src={pkg.image}
                     alt={currentTitle}
-                    className="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-110"
+                    className={`w-full h-full transition-transform duration-1000 ease-out group-hover:scale-105 ${pkg.id === "pkg-2" ? "object-contain" : "object-cover"}`}
                     referrerPolicy="no-referrer"
                   />
                   
