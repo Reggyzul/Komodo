@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Playfair Display", ui-serif, Georgia, serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  
+  /* Premium Tropical Theme Colors */
+  --color-brand-navy: #0F172A;
+  --color-brand-turquoise: #0EA5A4;
+  --color-brand-sand: #F5F1E8;
+  --color-brand-gold: #C8A96A;
+  --color-brand-white: #FFFFFF;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-brand-sand); /* Warm sand background */
+    color: var(--color-brand-navy); /* Professional navy text */
+  }
+}
+
+/* Custom masterpiece glow classes & subtle animations */
+@keyframes pulseSlow {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.05); }
+}
+
+@keyframes spinSlow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes floatAmbient {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-15px) rotate(2deg); }
+}
+
+.animate-pulse-slow {
+  animation: pulseSlow 12s ease-in-out infinite;
+}
+
+.animate-spin-slow {
+  animation: spinSlow 20s linear infinite;
+}
+
+.animate-float {
+  animation: floatAmbient 8s ease-in-out infinite;
+}
+
+/* Glassmorphism utility */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.glass-panel-dark {
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+/* Gold/Amber glow accent */
+.gold-glow {
+  box-shadow: 0 0 40px -10px rgba(245, 158, 11, 0.15);
+}
+
+.gold-glow-hover:hover {
+  box-shadow: 0 0 50px -5px rgba(245, 158, 11, 0.25);
+  border-color: rgba(245, 158, 11, 0.3);
+}
+
+/* Hide scrollbar but keep scroll functionality */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

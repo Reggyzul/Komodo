@@ -1,0 +1,6 @@
+{
+  "name": "KOMODO KAMU Tour and Travel",
+  "description": "Website resmi KOMODO KAMU Tour & Travel - Penyedia jasa rental mobil, sewa kapal, open trip, dan private trip premium di Labuan Bajo & Flores.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
