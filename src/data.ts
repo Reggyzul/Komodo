@@ -191,7 +191,7 @@ export const POPULAR_PACKAGES: TravelPackage[] = [
     enDuration: "3 Days 2 Nights (Live on Board)",
     price: "Rp 3.000.000",
     oldPrice: "Rp 3.500.000",
-    image: "/assets/phinisi_boat.png",
+    image: "/assets/phinisi_boat.jpg",
     rating: 4.9,
     badge: "Premium Trip",
     enBadge: "Premium Trip",

@@ -206,7 +206,7 @@ export default function App() {
           <PageBanner
             title={lang === "en" ? "Premium Packages & Open Trip" : "Paket Premium & Open Trip"}
             subtitle={lang === "en" ? "Favorite Choices of Live-On-Board Phinisi & Overland Cruises" : "Pilihan Trip Phinisi Live-On-Board dan Overland Terfavorit"}
-            bgImage="/assets/phinisi_boat.png"
+            bgImage="/assets/phinisi_boat.jpg"
             onBack={() => handleNavigate("home")}
             lang={lang}
           />
