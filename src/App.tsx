@@ -13,7 +13,7 @@ import { Destination, TravelPackage } from "./types";
 import { MessageCircle, ArrowLeft } from "lucide-react";
 
 // Editorial Page Banner for Subpages
-const PageBanner = ({ title, subtitle, bgImage, onBack }: { title: string; subtitle: string; bgImage: string; onBack?: () => void }) => {
+const PageBanner = ({ title, subtitle, bgImage, onBack, lang }: { title: string; subtitle: string; bgImage: string; onBack?: () => void; lang: "id" | "en" }) => {
   return (
     <div className="relative pt-44 pb-28 bg-brand-navy overflow-hidden flex items-center justify-center text-center">
       <div className="absolute inset-0 z-0">
@@ -32,7 +32,7 @@ const PageBanner = ({ title, subtitle, bgImage, onBack }: { title: string; subti
             className="inline-flex items-center space-x-2 text-slate-300 hover:text-brand-turquoise mb-6 text-xs font-bold uppercase tracking-widest cursor-pointer group transition-colors"
           >
             <ArrowLeft className="w-4 h-4 transform group-hover:-translate-x-1 transition-transform" />
-            <span>Kembali Ke Beranda</span>
+            <span>{lang === "en" ? "Back To Home" : "Kembali Ke Beranda"}</span>
           </button>
         )}
         <h1 className="font-serif font-light text-4xl sm:text-5xl md:text-6xl text-white tracking-tight mb-4">
@@ -48,6 +48,9 @@ const PageBanner = ({ title, subtitle, bgImage, onBack }: { title: string; subti
 };
 
 export default function App() {
+  // Language translation state: 'id' or 'en'
+  const [lang, setLang] = useState<"id" | "en">("id");
+
   // Navigation state: home, destinations, fleet, packages, testimonials, faq
   const [currentPage, setCurrentPage] = useState<"home" | "destinations" | "fleet" | "packages" | "testimonials" | "faq">("home");
 
@@ -89,13 +92,13 @@ export default function App() {
   return (
     <div className="min-h-screen bg-brand-sand text-brand-navy antialiased font-sans flex flex-col relative">
       {/* Dynamic Navigation Bar */}
-      <Navbar currentPage={currentPage} onNavigate={handleNavigate} />
+      <Navbar currentPage={currentPage} onNavigate={handleNavigate} lang={lang} setLang={setLang} />
 
       {/* Main Dynamic Routing Switch */}
       {currentPage === "home" && (
         <>
           {/* Hero Section */}
-          <Hero onQuickSearch={handleQuickSearch} />
+          <Hero onQuickSearch={handleQuickSearch} lang={lang} />
 
           {/* Featured Destinations Section - CURATED PREVIEW */}
           <div id="destinations" className="relative">
@@ -104,6 +107,7 @@ export default function App() {
               onClearSearch={() => setSearchTerm("")}
               onSelectDestination={handleSelectDestination}
               featuredLimit={3}
+              lang={lang}
             />
             {/* View More Call to Action */}
             <div className="bg-brand-sand pb-24 flex justify-center -mt-16 relative z-20">
@@ -111,14 +115,14 @@ export default function App() {
                 onClick={() => handleNavigate("destinations")}
                 className="group flex items-center space-x-2.5 bg-brand-navy hover:bg-brand-turquoise text-white px-8 py-4 rounded-full font-sans text-xs font-bold uppercase tracking-widest shadow-lg hover:shadow-brand-turquoise/20 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"
               >
-                <span>Eksplor Semua Destinasi</span>
+                <span>{lang === "en" ? "Explore All Destinations" : "Eksplor Semua Destinasi"}</span>
                 <span className="text-brand-gold group-hover:translate-x-1 transition-transform">→</span>
               </button>
             </div>
           </div>
 
           {/* Why Choose Us Section */}
-          <WhyChooseUs />
+          <WhyChooseUs lang={lang} />
 
           {/* VIP Concierge Banner */}
           <section className="py-20 bg-brand-sand relative overflow-hidden text-center">
@@ -132,10 +136,21 @@ export default function App() {
                     VIP CONCIERGE SERVICE
                   </span>
                   <h3 className="font-serif font-light text-3xl sm:text-4xl md:text-5xl text-white leading-tight">
-                    Rancang <span className="italic text-brand-gold">Trip Impian</span> Anda Secara Personal
+                    {lang === "en" ? (
+                      <>
+                        Design Your <span className="italic text-brand-gold">Dream Trip</span> Personally
+                      </>
+                    ) : (
+                      <>
+                        Rancang <span className="italic text-brand-gold">Trip Impian</span> Anda Secara Personal
+                      </>
+                    )}
                   </h3>
                   <p className="font-sans font-light text-slate-300 text-xs sm:text-sm md:text-base leading-relaxed max-w-2xl mx-auto">
-                    Konsultasikan jadwal perjalanan, pilihan kapal Phinisi termewah, serta destinasi impian Anda di Labuan Bajo bersama Travel Consultant ahli kami secara langsung, gratis, dan responsif.
+                    {lang === "en" 
+                      ? "Consult your travel schedule, choice of the most luxurious Phinisi ships, and your dream destinations in Labuan Bajo with our expert travel consultants directly, for free, and responsively."
+                      : "Konsultasikan jadwal perjalanan, pilihan kapal Phinisi termewah, serta destinasi impian Anda di Labuan Bajo bersama Travel Consultant ahli kami secara langsung, gratis, dan responsif."
+                    }
                   </p>
                   <div className="pt-4">
                     <a
@@ -144,7 +159,7 @@ export default function App() {
                       rel="noopener noreferrer"
                       className="group inline-flex items-center space-x-3 bg-brand-turquoise hover:bg-brand-turquoise/90 text-white px-8 py-4 rounded-full font-sans text-xs font-bold uppercase tracking-widest shadow-xl shadow-brand-turquoise/25 hover:shadow-brand-turquoise/40 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"
                     >
-                      <span>Hubungi Travel Advisor</span>
+                      <span>{lang === "en" ? "Contact Travel Advisor" : "Hubungi Travel Advisor"}</span>
                       <span className="text-brand-gold group-hover:translate-x-1.5 transition-transform">→</span>
                     </a>
                   </div>
@@ -158,15 +173,17 @@ export default function App() {
       {currentPage === "destinations" && (
         <>
           <PageBanner
-            title="Katalog Destinasi"
-            subtitle="Petualangan Alam Luar Biasa Labuan Bajo, TN Komodo, & Flores"
+            title={lang === "en" ? "Destination Catalog" : "Katalog Destinasi"}
+            subtitle={lang === "en" ? "Unbelievable Natural Adventures in Labuan Bajo, Komodo National Park & Flores" : "Petualangan Alam Luar Biasa Labuan Bajo, TN Komodo, & Flores"}
             bgImage="/assets/padar_island.png"
             onBack={() => handleNavigate("home")}
+            lang={lang}
           />
           <Destinations
             searchTerm={searchTerm}
             onClearSearch={() => setSearchTerm("")}
             onSelectDestination={handleSelectDestination}
+            lang={lang}
           />
         </>
       )}
@@ -174,55 +191,57 @@ export default function App() {
       {currentPage === "fleet" && (
         <>
           <PageBanner
-            title="Rental Mobil Labuan Bajo"
-            subtitle="Armada Prima Siap Mengawal Perjalanan Darat & Overland Flores"
+            title={lang === "en" ? "Labuan Bajo Car Rental" : "Rental Mobil Labuan Bajo"}
+            subtitle={lang === "en" ? "Prime Fleet Ready to Guide Your Land & Flores Overland Trips" : "Armada Prima Siap Mengawal Perjalanan Darat & Overland Flores"}
             bgImage="/assets/innova_reborn.png"
             onBack={() => handleNavigate("home")}
+            lang={lang}
           />
-          <Fleet />
+          <Fleet lang={lang} />
         </>
       )}
 
       {currentPage === "packages" && (
         <>
           <PageBanner
-            title="Paket Premium & Open Trip"
-            subtitle="Pilihan Trip Phinisi Live-On-Board dan Overland Terfavorit"
+            title={lang === "en" ? "Premium Packages & Open Trip" : "Paket Premium & Open Trip"}
+            subtitle={lang === "en" ? "Favorite Choices of Live-On-Board Phinisi & Overland Cruises" : "Pilihan Trip Phinisi Live-On-Board dan Overland Terfavorit"}
             bgImage="/assets/phinisi_boat.png"
             onBack={() => handleNavigate("home")}
+            lang={lang}
           />
-          <Packages onSelectPackage={handleSelectPackage} />
+          <Packages onSelectPackage={handleSelectPackage} lang={lang} />
         </>
       )}
 
       {currentPage === "testimonials" && (
         <>
           <PageBanner
-            title="Testimoni Pelanggan"
-            subtitle="Kisah Perjalanan Nyata dari Mereka yang Mengarungi Labuan Bajo Bersama Kami"
+            title={lang === "en" ? "Client Testimonials" : "Testimoni Pelanggan"}
+            subtitle={lang === "en" ? "Real Stories of Those Who Chartered the Sea of Labuan Bajo With Us" : "Kisah Perjalanan Nyata dari Mereka yang Mengarungi Labuan Bajo Bersama Kami"}
             bgImage="/assets/kanawa_island.png"
             onBack={() => handleNavigate("home")}
+            lang={lang}
           />
-          <Testimonials />
+          <Testimonials lang={lang} />
         </>
       )}
 
       {currentPage === "faq" && (
         <>
           <PageBanner
-            title="Tanya Jawab (FAQ)"
-            subtitle="Segala Hal yang Perlu Anda Ketahui Tentang Layanan & Perjalanan Kami"
+            title={lang === "en" ? "Frequently Asked Questions (FAQ)" : "Tanya Jawab (FAQ)"}
+            subtitle={lang === "en" ? "Everything You Need to Know About Our Services & Journeys" : "Segala Hal yang Perlu Anda Ketahui Tentang Layanan & Perjalanan Kami"}
             bgImage="/assets/goa_rangko.png"
             onBack={() => handleNavigate("home")}
+            lang={lang}
           />
-          <FAQ />
+          <FAQ lang={lang} />
         </>
       )}
 
-
-
       {/* Footer Details */}
-      <Footer onNavigate={handleNavigate} />
+      <Footer onNavigate={handleNavigate} lang={lang} />
 
       {/* Booking Inquiry Overlay Modal */}
       <InquiryModal
@@ -230,6 +249,7 @@ export default function App() {
         onClose={() => setIsInquiryOpen(false)}
         selectedDestination={selectedDestination}
         selectedPackage={selectedPackage}
+        lang={lang}
       />
 
       {/* Direct Floating WhatsApp Action Button */}
@@ -243,7 +263,7 @@ export default function App() {
       >
         <MessageCircle className="w-6 h-6" />
         <span className="max-w-0 overflow-hidden group-hover:max-w-xs group-hover:ml-2 font-sans text-xs font-bold transition-all duration-300 whitespace-nowrap">
-          Konsultasi Gratis
+          {lang === "en" ? "Free Consultation" : "Konsultasi Gratis"}
         </span>
       </a>
     </div>

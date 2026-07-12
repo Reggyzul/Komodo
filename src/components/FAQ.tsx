@@ -2,11 +2,18 @@ import React, { useState } from "react";
 import { ChevronDown, ChevronUp, HelpCircle, Sparkles } from "lucide-react";
 import { FAQS } from "../data";
 
-export default function FAQ() {
+export default function FAQ({ lang }: { lang: "id" | "en" }) {
   const [openId, setOpenId] = useState<string | null>("faq-1");
 
   const toggleFAQ = (id: string) => {
     setOpenId(openId === id ? null : id);
+  };
+
+  const getWhatsAppLink = () => {
+    const text = lang === "en"
+      ? "Hello KOMODO KAMU, I would like to ask about tour packages and customization options."
+      : "Halo KOMODO KAMU, saya ingin bertanya tentang layanan tour dan kustomisasi paket wisata.";
+    return `https://wa.me/6282144428975?text=${encodeURIComponent(text)}`;
   };
 
   return (
@@ -21,14 +28,25 @@ export default function FAQ() {
         <div className="text-center max-w-3xl mx-auto mb-20">
           <div className="inline-flex items-center space-x-2 bg-brand-gold/10 text-brand-gold px-4 py-1.5 rounded-full mb-4 font-sans text-xs font-bold uppercase tracking-widest">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>Pusat Bantuan & Layanan</span>
+            <span>{lang === "en" ? "Help Center & Support" : "Pusat Bantuan & Layanan"}</span>
           </div>
           <h2 className="text-4xl sm:text-5xl font-serif font-light tracking-tight text-slate-950 mb-6">
-            Pertanyaan yang <span className="italic font-normal text-brand-gold">Sering Diajukan</span>
+            {lang === "en" ? (
+              <>
+                Frequently Asked <span className="italic font-normal text-brand-gold">Questions</span>
+              </>
+            ) : (
+              <>
+                Pertanyaan yang <span className="italic font-normal text-brand-gold">Sering Diajukan</span>
+              </>
+            )}
           </h2>
           <div className="w-16 h-1 bg-brand-gold/30 mx-auto mb-6 rounded-full" />
           <p className="text-slate-600 font-sans font-light text-sm sm:text-base leading-relaxed tracking-wide">
-            Butuh informasi cepat mengenai prosedur pembayaran, asuransi, kustomisasi rute, atau garansi kami? Temukan rincian jawabannya di bawah ini.
+            {lang === "en"
+              ? "Need quick information about payment procedures, insurance, route customization, or our guarantees? Find the details below."
+              : "Butuh informasi cepat mengenai prosedur pembayaran, asuransi, kustomisasi rute, atau garansi kami? Temukan rincian jawabannya di bawah ini."
+            }
           </p>
         </div>
 
@@ -36,6 +54,9 @@ export default function FAQ() {
         <div className="space-y-5" id="faq-accordion-list">
           {FAQS.map((faq) => {
             const isOpen = openId === faq.id;
+            const currentQuestion = lang === "en" && faq.enQuestion ? faq.enQuestion : faq.question;
+            const currentAnswer = lang === "en" && faq.enAnswer ? faq.enAnswer : faq.answer;
+
             return (
               <div
                 key={faq.id}
@@ -52,7 +73,7 @@ export default function FAQ() {
                 >
                   <span className="font-sans font-bold text-xs sm:text-sm md:text-base text-slate-950 flex items-center pr-4">
                     <HelpCircle className="w-5 h-5 text-brand-turquoise mr-3.5 flex-shrink-0" />
-                    {faq.question}
+                    {currentQuestion}
                   </span>
                   <span className="text-slate-400 flex-shrink-0">
                     {isOpen ? (
@@ -70,7 +91,7 @@ export default function FAQ() {
                   }`}
                 >
                   <div className="p-6 bg-brand-sand/40 text-xs sm:text-sm leading-relaxed text-slate-600 font-sans font-light tracking-wide">
-                    {faq.answer}
+                    {currentAnswer}
                   </div>
                 </div>
               </div>
@@ -81,17 +102,22 @@ export default function FAQ() {
         {/* Still Have Questions CTA - Refactored to Luxury Concierge styling */}
         <div className="mt-16 bg-white rounded-[28px] p-8 sm:p-10 text-center border border-brand-turquoise/10 shadow-[0_20px_50px_rgba(14,165,164,0.04)] relative overflow-hidden" id="faq-bottom-cta">
           <div className="absolute top-0 left-0 w-full h-1 bg-brand-turquoise" />
-          <h3 className="font-serif font-semibold text-xl text-slate-950 mb-2">Masih Memiliki Pertanyaan Lain?</h3>
+          <h3 className="font-serif font-semibold text-xl text-slate-950 mb-2">
+            {lang === "en" ? "Still Have Other Questions?" : "Masih Memiliki Pertanyaan Lain?"}
+          </h3>
           <p className="text-slate-500 font-sans text-xs sm:text-sm font-light max-w-xl mx-auto mb-6 leading-relaxed">
-            Asisten pribadi dan Concierge khusus kami siap melayani kustomisasi paket, konsultasi visa, serta kebutuhan akomodasi khusus Anda langsung via WhatsApp.
+            {lang === "en"
+              ? "Our personal assistants and special Concierge are ready to handle package customization, visa consultations, and your special accommodation needs directly via WhatsApp."
+              : "Asisten pribadi dan Concierge khusus kami siap melayani kustomisasi paket, konsultasi visa, serta kebutuhan akomodasi khusus Anda langsung via WhatsApp."
+            }
           </p>
           <a
-            href="https://wa.me/628123456789?text=Halo%20Wonderlust%2C%20saya%20ingin%20bertanya%20tentang%20layanan%20tour%20dan%20kustomisasi%20paket%20wisata."
+            href={getWhatsAppLink()}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center space-x-2 bg-brand-navy hover:bg-brand-turquoise text-white hover:text-white font-sans text-[10px] font-bold uppercase tracking-widest px-8 py-4 rounded-xl shadow-md transition-all duration-300 cursor-pointer"
           >
-            <span>Hubungi Concierge 24/7</span>
+            <span>{lang === "en" ? "Contact Concierge 24/7" : "Hubungi Concierge 24/7"}</span>
           </a>
         </div>
 

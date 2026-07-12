@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Star, Quote, Sparkles, X, Maximize2 } from "lucide-react";
 import { TESTIMONIALS } from "../data";
 
-export default function Testimonials() {
+export default function Testimonials({ lang }: { lang: "id" | "en" }) {
   const [selectedImage, setSelectedImage] = useState<{
     src: string;
     title: string;
@@ -13,57 +13,75 @@ export default function Testimonials() {
   const galleryItems = [
     {
       src: "/assets/gallery_waterfall.jpg",
-      title: "Air Terjun Cunca Wulang",
-      desc: "Petualangan menembus hutan tropis Flores untuk menyaksikan keindahan air terjun eksotis di tebing ngarai tersembunyi.",
-      tag: "Flores Barat"
+      title: lang === "en" ? "Cunca Wulang Waterfall" : "Air Terjun Cunca Wulang",
+      desc: lang === "en" 
+        ? "Adventure through Flores' tropical rainforest to witness the exotic waterfall hidden inside a canyon."
+        : "Petualangan menembus hutan tropis Flores untuk menyaksikan keindahan air terjun eksotis di tebing ngarai tersembunyi.",
+      tag: lang === "en" ? "West Flores" : "Flores Barat"
     },
     {
       src: "/assets/gallery_waerebo_couple.jpg",
-      title: "Harmoni Kultural di Wae Rebo",
-      desc: "Mengenakan pakaian adat tenun ikat khas Manggarai bersama pasangan di depan rumah kerucut Mbaru Niang.",
-      tag: "Warisan Budaya"
+      title: lang === "en" ? "Cultural Harmony in Wae Rebo" : "Harmoni Kultural di Wae Rebo",
+      desc: lang === "en"
+        ? "Wearing traditional Manggarai handwoven ikat clothing with a partner in front of the Mbaru Niang houses."
+        : "Mengenakan pakaian adat tenun ikat khas Manggarai bersama pasangan di depan rumah kerucut Mbaru Niang.",
+      tag: lang === "en" ? "Cultural Heritage" : "Warisan Budaya"
     },
     {
       src: "/assets/gallery_waerebo_group.jpg",
-      title: "Kebersamaan Hangat Wae Rebo",
-      desc: "Momen ramah tamah dan diskusi hangat bersama penduduk lokal serta sesama penjelajah di dalam desa adat.",
-      tag: "Pengalaman Lokal"
+      title: lang === "en" ? "Warm Togetherness in Wae Rebo" : "Kebersamaan Hangat Wae Rebo",
+      desc: lang === "en"
+        ? "Moments of warm conversation and friendliness shared with local villagers and fellow explorers inside the traditional village."
+        : "Momen ramah tamah dan diskusi hangat bersama penduduk lokal serta sesama penjelajah di dalam desa adat.",
+      tag: lang === "en" ? "Local Experience" : "Pengalaman Lokal"
     },
     {
       src: "/assets/gallery_waerebo_village.jpg",
-      title: "Desa Adat di Atas Awan Wae Rebo",
-      desc: "Pesona mistis tujuh rumah adat pusaka Mbaru Niang yang dikelilingi kabut tipis lembah pegunungan terpencil.",
-      tag: "Petualangan Kultural"
+      title: lang === "en" ? "Wae Rebo Traditional Village Above the Clouds" : "Desa Adat di Atas Awan Wae Rebo",
+      desc: lang === "en"
+        ? "The mystical charm of the seven ancestral Mbaru Niang traditional houses surrounded by mountain valley mist."
+        : "Pesona mistis tujuh rumah adat pusaka Mbaru Niang yang dikelilingi kabut tipis lembah pegunungan terpencil.",
+      tag: lang === "en" ? "Cultural Adventure" : "Petualangan Kultural"
     },
     {
       src: "/assets/gallery_kelimutu.jpg",
-      title: "Fajar Magis di Danau Kelimutu",
-      desc: "Puncak keindahan matahari terbit menyinari kawah vulkanik tiga warna yang penuh legenda.",
-      tag: "Keajaiban Alam"
+      title: lang === "en" ? "Magical Dawn at Kelimutu Lake" : "Fajar Magis di Danau Kelimutu",
+      desc: lang === "en"
+        ? "The peak beauty of the sunrise illuminating the legendary three-colored volcanic craters."
+        : "Puncak keindahan matahari terbit menyinari kawah vulkanik tiga warna yang penuh legenda.",
+      tag: lang === "en" ? "Natural Wonder" : "Keajaiban Alam"
     },
     {
       src: "/assets/gallery_camping.jpg",
-      title: "Berkemah di Pantai Bajo",
-      desc: "Menikmati senja tenang dan malam bertabur bintang di tenda tepi pantai sunyi kawasan Labuan Bajo.",
-      tag: "Petualangan Pantai"
+      title: lang === "en" ? "Beach Camping in Bajo" : "Berkemah di Pantai Bajo",
+      desc: lang === "en"
+        ? "Enjoying quiet sunsets and star-filled skies in a beachside tent in the peaceful Labuan Bajo area."
+        : "Menikmati senja tenang dan malam bertabur bintang di tenda tepi pantai sunyi kawasan Labuan Bajo.",
+      tag: lang === "en" ? "Beach Adventure" : "Petualangan Pantai"
     },
     {
       src: "/assets/gallery_waerebo_walk.jpg",
-      title: "Trekking Menuju Wae Rebo",
-      desc: "Perjalanan mendaki menyusuri jalan setapak pegunungan Manggarai dikelilingi hutan hujan Flores.",
-      tag: "Trekking Alam"
+      title: lang === "en" ? "Trekking Towards Wae Rebo" : "Trekking Menuju Wae Rebo",
+      desc: lang === "en"
+        ? "A hiking journey climbing Manggarai mountain trails surrounded by lush Flores rainforest canopy."
+        : "Perjalanan mendaki menyusuri jalan setapak pegunungan Manggarai dikelilingi hutan hujan Flores.",
+      tag: lang === "en" ? "Nature Trekking" : "Trekking Alam"
     },
     {
       src: "/assets/gallery_rainforest_trek.jpg",
-      title: "Menjelajah Hutan Hujan Flores",
-      desc: "Langkah mendaki menyusuri tangga batu berlumut di tengah rimbunnya kanopi hutan tropis yang sejuk.",
-      tag: "Eksplorasi Rimba"
+      title: lang === "en" ? "Exploring Flores Rainforest" : "Menjelajah Hutan Hujan Flores",
+      desc: lang === "en"
+        ? "Climbing mossy stone stairs in the middle of a cool, lush tropical forest canopy."
+        : "Langkah mendaki menyusuri tangga batu berlumut di tengah rimbunnya kanopi hutan tropis yang sejuk.",
+      tag: lang === "en" ? "Jungle Exploration" : "Eksplorasi Rimba"
     },
     {
       src: "/assets/gallery_forest_waterfall.jpg",
-      title: "Air Terjun Hutan Rahasia",
-      desc: "Kesejukan alami aliran air terjun jernih tersembunyi yang mengalir subur di tengah lebatnya vegetasi Flores.",
-      tag: "Hidden Gem"
+      title: lang === "en" ? "Secret Forest Waterfall" : "Air Terjun Hutan Rahasia",
+      desc: lang === "en"
+        ? "Natural coolness of a hidden crystal clear waterfall flowing among lush Flores greenery."
+        : "Kesejukan alami aliran air terjun jernih tersembunyi yang mengalir subur di tengah lebatnya vegetasi Flores.",
+      tag: lang === "en" ? "Hidden Gem" : "Hidden Gem"
     }
   ];
 
@@ -83,14 +101,25 @@ export default function Testimonials() {
         <div className="text-center max-w-3xl mx-auto mb-12">
           <div className="inline-flex items-center space-x-2 bg-brand-turquoise/10 border border-brand-turquoise/20 px-3 py-1 rounded-full text-brand-turquoise text-[10px] font-bold uppercase tracking-widest mb-3">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>Dokumentasi Riil Perjalanan</span>
+            <span>{lang === "en" ? "Real Trip Documentation" : "Dokumentasi Riil Perjalanan"}</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-serif font-light tracking-tight text-white mb-4 leading-tight">
-            Momen Indah <span className="italic font-normal text-brand-turquoise">Petualangan</span> Tamu Kami
+            {lang === "en" ? (
+              <>
+                Beautiful Moments of Our Guests' <span className="italic font-normal text-brand-turquoise">Adventures</span>
+              </>
+            ) : (
+              <>
+                Momen Indah <span className="italic font-normal text-brand-turquoise">Petualangan</span> Tamu Kami
+              </>
+            )}
           </h2>
           <div className="w-16 h-0.5 bg-brand-turquoise/30 mx-auto mb-4 rounded-full" />
           <p className="text-slate-400 font-sans font-light text-xs sm:text-sm leading-relaxed max-w-2xl mx-auto">
-            Berikut adalah dokumentasi perjalanan autentik dari tamu kami selama menjelajahi keindahan alam Flores, desa budaya Wae Rebo, kawah Kelimutu, dan air terjun tropis.
+            {lang === "en"
+              ? "Here is the authentic travel documentation of our guests while exploring the natural beauty of Flores, Wae Rebo cultural village, Kelimutu craters, and tropical waterfalls."
+              : "Berikut adalah dokumentasi perjalanan autentik dari tamu kami selama menjelajahi keindahan alam Flores, desa budaya Wae Rebo, kawah Kelimutu, dan air terjun tropis."
+            }
           </p>
         </div>
 
@@ -137,65 +166,82 @@ export default function Testimonials() {
         {/* Testimonials Header (Smaller / Tighter) */}
         <div className="text-center max-w-2xl mx-auto mb-10">
           <div className="inline-flex items-center space-x-2 bg-brand-gold/10 border border-brand-gold/20 px-3 py-1 rounded-full text-brand-gold text-[9px] font-bold uppercase tracking-widest mb-3">
-            <Sparkles className="w-3 h-3 animate-pulse" />
-            <span>Testimoni Tamu</span>
+            <Sparkles className="w-3.5 h-3.5 animate-pulse" />
+            <span>{lang === "en" ? "Guest Testimonials" : "Testimoni Tamu"}</span>
           </div>
           <h3 className="text-2xl sm:text-3xl font-serif font-light tracking-tight text-white mb-3">
-            Cerita Petualangan <span className="italic font-normal text-brand-gold">Berharga</span> Mereka
+            {lang === "en" ? (
+              <>
+                Their <span className="italic font-normal text-brand-gold">Precious</span> Adventure Stories
+              </>
+            ) : (
+              <>
+                Cerita Petualangan <span className="italic font-normal text-brand-gold">Berharga</span> Mereka
+              </>
+            )}
           </h3>
           <p className="text-slate-400 font-sans font-light text-xs max-w-lg mx-auto">
-            Ulasan tulus dari para sahabat traveler yang telah mempercayakan kenyamanan perjalanannya kepada Komodo Kamu.
+            {lang === "en"
+              ? "Sincere reviews from fellow travelers who have entrusted their travel comfort to Komodo Kamu."
+              : "Ulasan tulus dari para sahabat traveler yang telah mempercayakan kenyamanan perjalanannya kepada Komodo Kamu."
+            }
           </p>
         </div>
 
         {/* Testimonials Grid (More Compact) */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="testimonials-grid">
-          {TESTIMONIALS.map((test) => (
-            <div
-              key={test.id}
-              className="bg-white/[0.015] hover:bg-white/[0.035] rounded-[24px] p-6 sm:p-7 border border-white/5 hover:border-brand-turquoise/20 transition-all duration-500 hover:shadow-[0_20px_50px_rgba(14,165,164,0.02)] relative flex flex-col justify-between group"
-            >
-              {/* Quote Icon overlay decoration */}
-              <div className="absolute top-6 right-6 text-white/5 group-hover:text-brand-turquoise/10 transition-colors duration-500">
-                <Quote className="w-8 h-8 fill-white/5 group-hover:fill-brand-turquoise/5" />
-              </div>
+          {TESTIMONIALS.map((test) => {
+            const currentContent = lang === "en" && test.enContent ? test.enContent : test.content;
+            const currentRole = lang === "en" && test.enRole ? test.enRole : test.role;
+            const currentDestination = lang === "en" && test.enDestination ? test.enDestination : test.destination;
 
-              <div>
-                {/* Visual Star rating */}
-                <div className="flex items-center space-x-1 mb-4">
-                  {[...Array(test.rating)].map((_, i) => (
-                    <Star key={i} className="w-3 h-3 fill-brand-gold text-brand-gold drop-shadow-[0_0_8px_rgba(200,169,106,0.5)]" />
-                  ))}
+            return (
+              <div
+                key={test.id}
+                className="bg-white/[0.015] hover:bg-white/[0.035] rounded-[24px] p-6 sm:p-7 border border-white/5 hover:border-brand-turquoise/20 transition-all duration-500 hover:shadow-[0_20px_50px_rgba(14,165,164,0.02)] relative flex flex-col justify-between group"
+              >
+                {/* Quote Icon overlay decoration */}
+                <div className="absolute top-6 right-6 text-white/5 group-hover:text-brand-turquoise/10 transition-colors duration-500">
+                  <Quote className="w-8 h-8 fill-white/5 group-hover:fill-brand-turquoise/5" />
                 </div>
 
-                {/* Testimonial Message */}
-                <p className="text-slate-300 font-sans text-xs sm:text-sm font-light leading-relaxed italic mb-6">
-                  "{test.content}"
-                </p>
-              </div>
-
-              {/* Profile Details footer */}
-              <div className="border-t border-white/5 pt-4 flex items-center justify-between mt-auto">
-                <div className="flex items-center space-x-3">
-                  <img
-                    src={test.image}
-                    alt={test.name}
-                    className="w-10 h-10 rounded-full object-cover border border-white/10 shadow-md group-hover:border-brand-turquoise/30 transition-all duration-500"
-                    referrerPolicy="no-referrer"
-                  />
-                  <div>
-                    <h4 className="font-sans font-bold text-xs sm:text-sm text-slate-100 group-hover:text-brand-turquoise transition-colors duration-300">{test.name}</h4>
-                    <span className="text-[8px] text-slate-500 font-sans uppercase font-bold tracking-wider block mt-0.5">{test.role}</span>
+                <div>
+                  {/* Visual Star rating */}
+                  <div className="flex items-center space-x-1 mb-4">
+                    {[...Array(test.rating)].map((_, i) => (
+                      <Star key={i} className="w-3 h-3 fill-brand-gold text-brand-gold drop-shadow-[0_0_8px_rgba(200,169,106,0.5)]" />
+                    ))}
                   </div>
+
+                  {/* Testimonial Message */}
+                  <p className="text-slate-300 font-sans text-xs sm:text-sm font-light leading-relaxed italic mb-6">
+                    "{currentContent}"
+                  </p>
                 </div>
 
-                {/* Destination tag */}
-                <span className="bg-brand-turquoise/10 text-brand-turquoise font-sans text-[8px] font-bold uppercase tracking-wider px-2 py-0.5 rounded border border-brand-turquoise/10">
-                  {test.destination}
-                </span>
+                {/* Profile Details footer */}
+                <div className="border-t border-white/5 pt-4 flex items-center justify-between mt-auto">
+                  <div className="flex items-center space-x-3">
+                    <img
+                      src={test.image}
+                      alt={test.name}
+                      className="w-10 h-10 rounded-full object-cover border border-white/10 shadow-md group-hover:border-brand-turquoise/30 transition-all duration-500"
+                      referrerPolicy="no-referrer"
+                    />
+                    <div>
+                      <h4 className="font-sans font-bold text-xs sm:text-sm text-slate-100 group-hover:text-brand-turquoise transition-colors duration-300">{test.name}</h4>
+                      <span className="text-[8px] text-slate-500 font-sans uppercase font-bold tracking-wider block mt-0.5">{currentRole}</span>
+                    </div>
+                  </div>
+
+                  {/* Destination tag */}
+                  <span className="bg-brand-turquoise/10 text-brand-turquoise font-sans text-[8px] font-bold uppercase tracking-wider px-2 py-0.5 rounded border border-brand-turquoise/10">
+                    {currentDestination}
+                  </span>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
       </div>

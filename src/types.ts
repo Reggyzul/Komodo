@@ -9,6 +9,10 @@ export interface Destination {
   tag: string;
   duration: string;
   description: string;
+  enLocation?: string;
+  enTag?: string;
+  enDuration?: string;
+  enDescription?: string;
 }
 
 export interface TravelPackage {
@@ -23,6 +27,12 @@ export interface TravelPackage {
   inclusions: string[];
   badge?: string;
   description: string;
+  enTitle?: string;
+  enDestination?: string;
+  enDuration?: string;
+  enBadge?: string;
+  enDescription?: string;
+  enInclusions?: string[];
 }
 
 export interface Testimonial {
@@ -33,6 +43,9 @@ export interface Testimonial {
   content: string;
   rating: number;
   destination: string;
+  enRole?: string;
+  enContent?: string;
+  enDestination?: string;
 }
 
 export interface AIActivity {

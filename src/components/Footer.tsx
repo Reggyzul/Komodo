@@ -3,9 +3,10 @@ import { Mail, Phone, MapPin, Send, CheckCircle2, Instagram, Globe } from "lucid
 
 interface FooterProps {
   onNavigate?: (page: "home" | "destinations" | "fleet" | "packages" | "testimonials" | "faq", sectionId?: string) => void;
+  lang: "id" | "en";
 }
 
-export default function Footer({ onNavigate }: FooterProps) {
+export default function Footer({ onNavigate, lang }: FooterProps) {
   const [email, setEmail] = useState("");
   const [isSubscribed, setIsSubscribed] = useState(false);
 
@@ -18,6 +19,24 @@ export default function Footer({ onNavigate }: FooterProps) {
   };
 
   const currentYear = new Date().getFullYear();
+
+  const usefulLinks = lang === "en"
+    ? ["Home", "Destinations", "Car Rental", "Popular Packages", "Testimonials", "FAQ"]
+    : ["Beranda", "Destinasi", "Rental Mobil", "Paket Populer", "Testimoni", "FAQ"];
+
+  const idsMap: { [key: string]: "home" | "destinations" | "fleet" | "packages" | "testimonials" | "faq" } = {
+    "Beranda": "home",
+    "Home": "home",
+    "Destinasi": "destinations",
+    "Destinations": "destinations",
+    "Rental Mobil": "fleet",
+    "Car Rental": "fleet",
+    "Paket Populer": "packages",
+    "Popular Packages": "packages",
+    "Testimoni": "testimonials",
+    "Testimonials": "testimonials",
+    "FAQ": "faq"
+  };
 
   return (
     <footer className="bg-brand-navy text-slate-300 font-sans relative border-t border-white/5 pt-20 pb-12">
@@ -40,7 +59,10 @@ export default function Footer({ onNavigate }: FooterProps) {
               </div>
             </div>
             <p className="text-slate-400 font-sans text-xs sm:text-sm font-light leading-relaxed">
-              KOMODO KAMU merupakan penyedia jasa rental mobil, sewa kapal, open trip, dan private trip Labuan Bajo yang melayani wisatawan lokal maupun mancanegara.
+              {lang === "en"
+                ? "KOMODO KAMU is a provider of car rental, boat charter, open trip, and private trip services in Labuan Bajo, serving local and international tourists."
+                : "KOMODO KAMU merupakan penyedia jasa rental mobil, sewa kapal, open trip, dan private trip Labuan Bajo yang melayani wisatawan lokal maupun mancanegara."
+              }
             </p>
             {/* Social Icons */}
             <div className="flex space-x-4">
@@ -57,18 +79,12 @@ export default function Footer({ onNavigate }: FooterProps) {
 
           {/* Useful Links Column */}
           <div className="space-y-5 text-left">
-            <h4 className="font-serif font-semibold text-base text-white uppercase tracking-wider">Halaman Utama</h4>
+            <h4 className="font-serif font-semibold text-base text-white uppercase tracking-wider">
+              {lang === "en" ? "Main Pages" : "Halaman Utama"}
+            </h4>
             <div className="w-8 h-0.5 bg-brand-gold/30 rounded-full" />
             <ul className="space-y-3 text-xs sm:text-sm">
-              {["Beranda", "Destinasi", "Rental Mobil", "Paket Populer", "Testimoni", "FAQ"].map((link) => {
-                const idsMap: { [key: string]: "home" | "destinations" | "fleet" | "packages" | "testimonials" | "faq" } = {
-                  "Beranda": "home",
-                  "Destinasi": "destinations",
-                  "Rental Mobil": "fleet",
-                  "Paket Populer": "packages",
-                  "Testimoni": "testimonials",
-                  "FAQ": "faq"
-                };
+              {usefulLinks.map((link) => {
                 return (
                   <li key={link}>
                     <button
@@ -93,7 +109,9 @@ export default function Footer({ onNavigate }: FooterProps) {
 
           {/* Contact Details Column */}
           <div className="space-y-5 text-left">
-            <h4 className="font-serif font-semibold text-base text-white uppercase tracking-wider">Kontak & Basecamp</h4>
+            <h4 className="font-serif font-semibold text-base text-white uppercase tracking-wider">
+              {lang === "en" ? "Contact & Basecamp" : "Kontak & Basecamp"}
+            </h4>
             <div className="w-8 h-0.5 bg-brand-gold/30 rounded-full" />
             <ul className="space-y-4 text-xs sm:text-sm text-slate-400">
               <li className="flex items-start">
@@ -113,18 +131,30 @@ export default function Footer({ onNavigate }: FooterProps) {
 
           {/* Newsletter Column */}
           <div className="space-y-5 text-left">
-            <h4 className="font-serif font-semibold text-base text-white uppercase tracking-wider">Newsletter Wisata</h4>
+            <h4 className="font-serif font-semibold text-base text-white uppercase tracking-wider">
+              {lang === "en" ? "Travel Newsletter" : "Newsletter Wisata"}
+            </h4>
             <div className="w-8 h-0.5 bg-brand-gold/30 rounded-full" />
             <p className="text-slate-400 font-sans text-xs font-light leading-relaxed">
-              Dapatkan info promo, rilis rute privat baru di Labuan Bajo & Flores, diskon eksklusif, serta panduan wisata gratis.
+              {lang === "en"
+                ? "Get promo information, releases of new private routes in Labuan Bajo & Flores, exclusive discounts, and free travel guides."
+                : "Dapatkan info promo, rilis rute privat baru di Labuan Bajo & Flores, diskon eksklusif, serta panduan wisata gratis."
+              }
             </p>
 
             {isSubscribed ? (
               <div className="bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-2xl p-4 flex items-start space-x-2 text-xs">
                 <CheckCircle2 className="w-5 h-5 flex-shrink-0 animate-bounce" />
                 <div>
-                  <span className="block font-bold font-sans">Terima Kasih!</span>
-                  <span className="font-sans">Kupon diskon promo kami kirim ke email Anda.</span>
+                  <span className="block font-bold font-sans">
+                    {lang === "en" ? "Thank You!" : "Terima Kasih!"}
+                  </span>
+                  <span className="font-sans">
+                    {lang === "en" 
+                      ? "We've sent a promo discount coupon to your email."
+                      : "Kupon diskon promo kami kirim ke email Anda."
+                    }
+                  </span>
                 </div>
               </div>
             ) : (
@@ -132,7 +162,7 @@ export default function Footer({ onNavigate }: FooterProps) {
                 <input
                   type="email"
                   required
-                  placeholder="Masukkan email Anda"
+                  placeholder={lang === "en" ? "Enter your email" : "Masukkan email Anda"}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full bg-slate-900 border border-white/5 text-white font-sans text-xs rounded-xl pl-4 pr-12 py-4 focus:outline-none focus:ring-1 focus:ring-brand-turquoise focus:border-brand-turquoise transition-all"
@@ -152,10 +182,19 @@ export default function Footer({ onNavigate }: FooterProps) {
 
         {/* Lower Footer Bottom Bar */}
         <div className="border-t border-white/5 pt-8 mt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-slate-500">
-          <p>© {currentYear} KOMODO KAMU TOUR AND TRAVEL. Hak Cipta Dilindungi Undang-Undang.</p>
+          <p>
+            {lang === "en"
+              ? `© ${currentYear} KOMODO KAMU TOUR AND TRAVEL. All Rights Reserved.`
+              : `© ${currentYear} KOMODO KAMU TOUR AND TRAVEL. Hak Cipta Dilindungi Undang-Undang.`
+            }
+          </p>
           <div className="flex space-x-6">
-            <a href="#faq" className="hover:text-brand-turquoise transition-colors duration-300">Kebijakan Privasi</a>
-            <a href="#faq" className="hover:text-brand-turquoise transition-colors duration-300">Syarat & Ketentuan</a>
+            <a href="#faq" className="hover:text-brand-turquoise transition-colors duration-300">
+              {lang === "en" ? "Privacy Policy" : "Kebijakan Privasi"}
+            </a>
+            <a href="#faq" className="hover:text-brand-turquoise transition-colors duration-300">
+              {lang === "en" ? "Terms & Conditions" : "Syarat & Ketentuan"}
+            </a>
           </div>
         </div>
 

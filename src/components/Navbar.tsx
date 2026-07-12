@@ -4,9 +4,11 @@ import { Menu, X, PhoneCall } from "lucide-react";
 interface NavbarProps {
   currentPage: "home" | "destinations" | "fleet" | "packages" | "testimonials" | "faq";
   onNavigate: (page: "home" | "destinations" | "fleet" | "packages" | "testimonials" | "faq", sectionId?: string) => void;
+  lang: "id" | "en";
+  setLang: (lang: "id" | "en") => void;
 }
 
-export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
+export default function Navbar({ currentPage, onNavigate, lang, setLang }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
@@ -51,12 +53,12 @@ export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
   };
 
   const navLinks = [
-    { name: "Beranda", id: "home" },
-    { name: "Destinasi", id: "destinations" },
-    { name: "Rental Mobil", id: "fleet" },
-    { name: "Paket Premium", id: "packages" },
-    { name: "Testimoni", id: "testimonials" },
-    { name: "FAQ", id: "faq" }
+    { name: lang === "en" ? "Home" : "Beranda", id: "home" },
+    { name: lang === "en" ? "Destinations" : "Destinasi", id: "destinations" },
+    { name: lang === "en" ? "Car Rental" : "Rental Mobil", id: "fleet" },
+    { name: lang === "en" ? "Premium Packages" : "Paket Premium", id: "packages" },
+    { name: lang === "en" ? "Testimonials" : "Testimoni", id: "testimonials" },
+    { name: lang === "en" ? "FAQ" : "FAQ", id: "faq" }
   ];
 
   return (
@@ -106,8 +108,29 @@ export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
             ))}
           </div>
 
-          {/* Call to Action Button */}
-          <div className="hidden md:flex items-center">
+          {/* Call to Action Button & Language Switcher */}
+          <div className="hidden md:flex items-center space-x-5">
+            {/* Language Switcher */}
+            <div className="flex items-center space-x-2 border-l border-white/10 pl-4 h-5 text-[10px] font-sans font-bold uppercase tracking-widest text-slate-400 mr-1">
+              <button
+                onClick={() => setLang("id")}
+                className={`cursor-pointer transition-colors duration-300 hover:text-white ${
+                  lang === "id" ? "text-brand-gold font-extrabold underline decoration-brand-gold underline-offset-4" : ""
+                }`}
+              >
+                ID
+              </button>
+              <span className="text-white/20">|</span>
+              <button
+                onClick={() => setLang("en")}
+                className={`cursor-pointer transition-colors duration-300 hover:text-white ${
+                  lang === "en" ? "text-brand-gold font-extrabold underline decoration-brand-gold underline-offset-4" : ""
+                }`}
+              >
+                EN
+              </button>
+            </div>
+
             <a
               href="https://wa.me/6282144428975?text=Halo%20KOMODO%20KAMU%2C%20saya%20tertarik%20untuk%20konsultasi%20trip%2Frental%20mobil%20di%20Labuan%20Bajo."
               target="_blank"
@@ -116,7 +139,7 @@ export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
               id="nav-ai-btn"
             >
               <PhoneCall className="w-4 h-4 text-white animate-pulse" />
-              <span>Hubungi Kami</span>
+              <span>{lang === "en" ? "Contact Us" : "Hubungi Kami"}</span>
             </a>
           </div>
 
@@ -138,6 +161,33 @@ export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
       {isMobileMenuOpen && (
         <div className="md:hidden bg-[#040814]/95 backdrop-blur-2xl border-b border-white/10 shadow-2xl font-sans" id="mobile-menu-dropdown">
           <div className="px-4 pt-4 pb-8 space-y-2">
+            {/* Mobile Language Switcher */}
+            <div className="flex items-center justify-between px-4 py-2 border-b border-white/5 pb-4 mb-2">
+              <span className="text-[10px] font-bold font-sans uppercase tracking-widest text-slate-500">{lang === "en" ? "Language" : "Bahasa"}</span>
+              <div className="flex items-center space-x-3 text-[10px] font-sans font-bold uppercase tracking-widest">
+                <button
+                  onClick={() => { setLang("id"); setIsMobileMenuOpen(false); }}
+                  className={`cursor-pointer px-3 py-1.5 rounded-lg border transition-colors ${
+                    lang === "id"
+                      ? "bg-brand-gold/15 border-brand-gold text-brand-gold font-extrabold"
+                      : "border-white/10 text-slate-400 hover:text-white"
+                  }`}
+                >
+                  ID
+                </button>
+                <button
+                  onClick={() => { setLang("en"); setIsMobileMenuOpen(false); }}
+                  className={`cursor-pointer px-3 py-1.5 rounded-lg border transition-colors ${
+                    lang === "en"
+                      ? "bg-brand-gold/15 border-brand-gold text-brand-gold font-extrabold"
+                      : "border-white/10 text-slate-400 hover:text-white"
+                  }`}
+                >
+                  EN
+                </button>
+              </div>
+            </div>
+
             {navLinks.map((link) => (
               <button
                 key={link.id}
@@ -159,7 +209,7 @@ export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
                 className="w-full flex justify-center items-center space-x-2 bg-brand-turquoise text-white py-3.5 rounded-xl font-bold uppercase tracking-wider text-xs shadow-lg shadow-brand-turquoise/20"
               >
                 <PhoneCall className="w-4 h-4 text-white" />
-                <span>Konsultasi Sekarang</span>
+                <span>{lang === "en" ? "Consult Now" : "Konsultasi Sekarang"}</span>
               </a>
             </div>
           </div>

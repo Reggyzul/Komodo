@@ -8,9 +8,10 @@ interface DestinationsProps {
   searchTerm: string;
   onClearSearch: () => void;
   featuredLimit?: number;
+  lang: "id" | "en";
 }
 
-export default function Destinations({ onSelectDestination, searchTerm, onClearSearch, featuredLimit }: DestinationsProps) {
+export default function Destinations({ onSelectDestination, searchTerm, onClearSearch, featuredLimit, lang }: DestinationsProps) {
   const [activeCategory, setActiveCategory] = useState<"all" | "national_park" | "islands" | "land_caves">("all");
   const [innerSearch, setInnerSearch] = useState("");
   const [favorites, setFavorites] = useState<string[]>([]);
@@ -47,7 +48,9 @@ export default function Destinations({ onSelectDestination, searchTerm, onClearS
         return (
           dest.name.toLowerCase().includes(query) ||
           dest.location.toLowerCase().includes(query) ||
-          dest.description.toLowerCase().includes(query)
+          dest.description.toLowerCase().includes(query) ||
+          (dest.enLocation && dest.enLocation.toLowerCase().includes(query)) ||
+          (dest.enDescription && dest.enDescription.toLowerCase().includes(query))
         );
       }
 
@@ -60,10 +63,10 @@ export default function Destinations({ onSelectDestination, searchTerm, onClearS
   }, [filteredDestinations, featuredLimit]);
 
   const categories = [
-    { label: "Semua Destinasi", value: "all" as const },
-    { label: "Taman Nasional", value: "national_park" as const },
-    { label: "Pulau & Pantai", value: "islands" as const },
-    { label: "Goa & Bukit", value: "land_caves" as const }
+    { label: lang === "en" ? "All Destinations" : "Semua Destinasi", value: "all" as const },
+    { label: lang === "en" ? "National Park" : "Taman Nasional", value: "national_park" as const },
+    { label: lang === "en" ? "Islands & Beaches" : "Pulau & Pantai", value: "islands" as const },
+    { label: lang === "en" ? "Caves & Hills" : "Goa & Bukit", value: "land_caves" as const }
   ];
 
   return (
@@ -79,14 +82,27 @@ export default function Destinations({ onSelectDestination, searchTerm, onClearS
         <div className="text-center max-w-3xl mx-auto mb-20">
           <div className="inline-flex items-center space-x-2 bg-brand-gold/10 text-brand-gold px-4 py-1.5 rounded-full mb-4 font-sans text-xs font-bold uppercase tracking-widest border border-brand-gold/20">
             <Compass className="w-3.5 h-3.5 text-brand-gold animate-spin-slow" />
-            <span>Sailing & Open Trip Mulai dari Rp 1.350.000 / pax</span>
+            <span>
+              {lang === "en" ? "Sailing & Open Trip Starting from IDR 1,350,000 / pax" : "Sailing & Open Trip Mulai dari Rp 1.350.000 / pax"}
+            </span>
           </div>
           <h2 className="text-4xl sm:text-5xl md:text-6xl font-serif font-light tracking-tight text-slate-950 mb-6">
-            Koleksi <span className="italic font-normal text-brand-gold">Eksplorasi</span> Terbaik
+            {lang === "en" ? (
+              <>
+                Curated <span className="italic font-normal text-brand-gold">Best Explorations</span>
+              </>
+            ) : (
+              <>
+                Koleksi <span className="italic font-normal text-brand-gold">Eksplorasi</span> Terbaik
+              </>
+            )}
           </h2>
           <div className="w-16 h-1 bg-brand-gold/30 mx-auto mb-6 rounded-full" />
           <p className="text-slate-600 font-sans font-light text-sm sm:text-base md:text-lg leading-relaxed tracking-wide">
-            Dari kemegahan alam tropis kepulauan nusantara hingga keindahan arsitektur warisan peradaban dunia, kami mempersembahkan petualangan eksklusif yang dirancang khusus untuk kenyamanan Anda.
+            {lang === "en"
+              ? "From the majesty of tropical islands to the beauty of world heritage civilizations, we present exclusive adventures tailored specifically for your premium comfort."
+              : "Dari kemegahan alam tropis kepulauan nusantara hingga keindahan arsitektur warisan peradaban dunia, kami mempersembahkan petualangan eksklusif yang dirancang khusus untuk kenyamanan Anda."
+            }
           </p>
         </div>
 
@@ -117,7 +133,7 @@ export default function Destinations({ onSelectDestination, searchTerm, onClearS
             </span>
             <input
               type="text"
-              placeholder="Cari destinasi impian Anda..."
+              placeholder={lang === "en" ? "Search your dream destination..." : "Cari destinasi impian Anda..."}
               value={activeSearch}
               onChange={(e) => {
                 setInnerSearch(e.target.value);
@@ -145,9 +161,14 @@ export default function Destinations({ onSelectDestination, searchTerm, onClearS
             <div className="p-4 bg-brand-gold/10 inline-flex rounded-full text-brand-gold mb-4 border border-brand-gold/20">
               <MapPin className="w-8 h-8" />
             </div>
-            <h3 className="text-lg font-bold text-slate-800 font-sans mb-1">Destinasi Tidak Ditemukan</h3>
+            <h3 className="text-lg font-bold text-slate-800 font-sans mb-1">
+              {lang === "en" ? "Destination Not Found" : "Destinasi Tidak Ditemukan"}
+            </h3>
             <p className="text-slate-500 font-sans text-xs sm:text-sm font-light max-w-xs mx-auto mb-6 leading-relaxed">
-              Kami tidak dapat menemukan destinasi yang sesuai dengan "{activeSearch}". Silakan cari dengan kata kunci lain.
+              {lang === "en"
+                ? `We couldn't find destinations matching "${activeSearch}". Please try other keywords.`
+                : `Kami tidak dapat menemukan destinasi yang sesuai dengan "${activeSearch}". Silakan cari dengan kata kunci lain.`
+              }
             </p>
             <button
               onClick={() => {
@@ -157,7 +178,7 @@ export default function Destinations({ onSelectDestination, searchTerm, onClearS
               }}
               className="px-6 py-3 bg-brand-navy hover:bg-brand-turquoise hover:text-white text-white font-sans text-xs font-bold uppercase tracking-wider rounded-xl shadow-md transition-all duration-300 cursor-pointer"
             >
-              Reset Semua Filter
+              {lang === "en" ? "Reset All Filters" : "Reset Semua Filter"}
             </button>
           </div>
         ) : (
@@ -179,7 +200,7 @@ export default function Destinations({ onSelectDestination, searchTerm, onClearS
                   />
                   {/* Category Tag Badge */}
                   <span className="absolute top-5 left-5 bg-brand-navy/90 backdrop-blur-md border border-white/10 text-white font-sans text-[10px] font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full">
-                    {dest.tag}
+                    {lang === "en" && dest.enTag ? dest.enTag : dest.tag}
                   </span>
                   
                   {/* Favorite Button */}
@@ -200,7 +221,7 @@ export default function Destinations({ onSelectDestination, searchTerm, onClearS
                   <div className="flex justify-between items-center text-[11px] mb-4 font-sans font-bold uppercase tracking-wider">
                     <span className="flex items-center text-slate-400">
                       <MapPin className="w-3.5 h-3.5 text-brand-turquoise mr-1 flex-shrink-0" />
-                      {dest.location}
+                      {lang === "en" && dest.enLocation ? dest.enLocation : dest.location}
                     </span>
                     <span className="flex items-center text-brand-gold bg-brand-gold/10 px-2.5 py-1 rounded-lg border border-brand-gold/10">
                       <Star className="w-3 h-3 fill-brand-gold text-brand-gold mr-1" />
@@ -215,18 +236,18 @@ export default function Destinations({ onSelectDestination, searchTerm, onClearS
 
                   {/* Short Description */}
                   <p className="text-slate-500 font-sans text-xs sm:text-sm font-light leading-relaxed mb-6 flex-1">
-                    {dest.description}
+                    {lang === "en" && dest.enDescription ? dest.enDescription : dest.description}
                   </p>
 
                   {/* Divider line and duration layout */}
                   <div className="border-t border-slate-100 pt-5 mt-auto flex justify-between items-center">
                     <div className="flex items-center space-x-1.5 text-slate-500 font-sans font-bold text-xs">
                       <Clock className="w-3.5 h-3.5 text-brand-turquoise" />
-                      <span>{dest.duration}</span>
+                      <span>{lang === "en" && dest.enDuration ? dest.enDuration : dest.duration}</span>
                     </div>
                     
                     <span className="text-[11px] font-sans font-bold uppercase tracking-widest text-brand-turquoise group-hover:text-brand-navy transition-colors">
-                      Detail Trip →
+                      {lang === "en" ? "Trip Details →" : "Detail Trip →"}
                     </span>
                   </div>
                 </div>

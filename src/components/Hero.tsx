@@ -3,9 +3,10 @@ import { Search, Calendar, Users, MapPin, ArrowRight, Compass, Sparkles, Navigat
 
 interface HeroProps {
   onQuickSearch: (destination: string) => void;
+  lang: "id" | "en";
 }
 
-export default function Hero({ onQuickSearch }: HeroProps) {
+export default function Hero({ onQuickSearch, lang }: HeroProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [month, setMonth] = useState("");
   const [tripType, setTripType] = useState("all");
@@ -28,10 +29,10 @@ export default function Hero({ onQuickSearch }: HeroProps) {
   };
 
   const trendingDestinations = [
-    { name: "Pulau Padar", label: "Panorama Bukit" },
-    { name: "Pink Beach", label: "Pasir Merah Muda" },
-    { name: "Pulau Komodo", label: "Naga Purba Komodo" },
-    { name: "Goa Rangko", label: "Kolam Biru Alami" }
+    { name: "Pulau Padar", label: lang === "en" ? "Hill Panorama" : "Panorama Bukit" },
+    { name: "Pink Beach", label: lang === "en" ? "Pink Sand" : "Pasir Merah Muda" },
+    { name: "Pulau Komodo", label: lang === "en" ? "Komodo Dragons" : "Naga Purba Komodo" },
+    { name: "Goa Rangko", label: lang === "en" ? "Natural Blue Pool" : "Kolam Biru Alami" }
   ];
 
   return (
@@ -58,7 +59,7 @@ export default function Hero({ onQuickSearch }: HeroProps) {
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         {/* Masterpiece Editorial Headline */}
         <h1 className="font-serif font-light text-4xl sm:text-5xl md:text-6xl lg:text-7xl tracking-tight text-white mb-6 leading-[1.1] max-w-5xl mx-auto" id="hero-title">
-          Petualangan Hebat Bersama <br />
+          {lang === "en" ? "Great Adventures With" : "Petualangan Hebat Bersama"} <br />
           <span className="font-sans font-black uppercase tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-100 to-brand-gold text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
             KOMODO KAMU TRAVEL
           </span>
@@ -66,7 +67,10 @@ export default function Hero({ onQuickSearch }: HeroProps) {
 
         {/* Highly styled elegant description */}
         <p className="font-sans text-sm sm:text-base md:text-lg text-slate-300 max-w-3xl mx-auto mb-12 leading-relaxed font-light tracking-wide" id="hero-subtitle">
-          KOMODO KAMU merupakan penyedia jasa rental mobil, sewa kapal, open trip, dan private trip Labuan Bajo yang melayani wisatawan lokal maupun mancanegara dengan standar layanan prima dan andal.
+          {lang === "en"
+            ? "KOMODO KAMU is a provider of car rental, boat charter, open trip, and private trip services in Labuan Bajo, serving local and international tourists with prime and reliable service standards."
+            : "KOMODO KAMU merupakan penyedia jasa rental mobil, sewa kapal, open trip, dan private trip Labuan Bajo yang melayani wisatawan lokal maupun mancanegara dengan standar layanan prima dan andal."
+          }
         </p>
 
         {/* Premium Dark Glass Search Widget */}
@@ -79,10 +83,12 @@ export default function Hero({ onQuickSearch }: HeroProps) {
             <div className="flex-2 w-full flex items-center px-4 py-2 space-x-3 text-left">
               <MapPin className="text-brand-turquoise w-5 h-5 flex-shrink-0 animate-bounce" />
               <div className="flex-1">
-                <label className="block text-[10px] font-bold text-brand-gold uppercase tracking-widest font-sans mb-0.5">Destinasi</label>
+                <label className="block text-[10px] font-bold text-brand-gold uppercase tracking-widest font-sans mb-0.5">
+                  {lang === "en" ? "Destination" : "Destinasi"}
+                </label>
                 <input
                   type="text"
-                  placeholder="Cari destinasi? (misal: Pulau Padar, Wae Rebo)"
+                  placeholder={lang === "en" ? "Search destination? (e.g. Padar Island, Wae Rebo)" : "Cari destinasi? (misal: Pulau Padar, Wae Rebo)"}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full text-sm font-semibold text-white placeholder-slate-400 focus:outline-none bg-transparent font-sans"
@@ -94,19 +100,21 @@ export default function Hero({ onQuickSearch }: HeroProps) {
             <div className="flex-1 w-full flex items-center px-4 py-2 text-left">
               <Calendar className="text-brand-turquoise w-5 h-5 flex-shrink-0 mr-3" />
               <div className="flex-1">
-                <label className="block text-[10px] font-bold text-brand-gold uppercase tracking-widest font-sans mb-0.5">Jadwal</label>
+                <label className="block text-[10px] font-bold text-brand-gold uppercase tracking-widest font-sans mb-0.5">
+                  {lang === "en" ? "Schedule" : "Jadwal"}
+                </label>
                 <select
                   value={month}
                   onChange={(e) => setMonth(e.target.value)}
                   className="w-full text-sm font-semibold text-white focus:outline-none bg-transparent font-sans appearance-none cursor-pointer"
                 >
-                  <option value="" className="bg-brand-navy text-white">Pilih Waktu</option>
-                  <option value="juli" className="bg-brand-navy text-white">Juli 2026</option>
-                  <option value="agustus" className="bg-brand-navy text-white">Agustus 2026</option>
-                  <option value="september" className="bg-brand-navy text-white">September 2026</option>
-                  <option value="oktober" className="bg-brand-navy text-white">Oktober 2026</option>
-                  <option value="november" className="bg-brand-navy text-white">November 2026</option>
-                  <option value="desember" className="bg-brand-navy text-white">Desember 2026</option>
+                  <option value="" className="bg-brand-navy text-white">{lang === "en" ? "Select Month" : "Pilih Waktu"}</option>
+                  <option value="juli" className="bg-brand-navy text-white">{lang === "en" ? "July 2026" : "Juli 2026"}</option>
+                  <option value="agustus" className="bg-brand-navy text-white">{lang === "en" ? "August 2026" : "Agustus 2026"}</option>
+                  <option value="september" className="bg-brand-navy text-white">{lang === "en" ? "September 2026" : "September 2026"}</option>
+                  <option value="oktober" className="bg-brand-navy text-white">{lang === "en" ? "October 2026" : "Oktober 2026"}</option>
+                  <option value="november" className="bg-brand-navy text-white">{lang === "en" ? "November 2026" : "November 2026"}</option>
+                  <option value="desember" className="bg-brand-navy text-white">{lang === "en" ? "December 2026" : "Desember 2026"}</option>
                 </select>
               </div>
             </div>
@@ -115,13 +123,15 @@ export default function Hero({ onQuickSearch }: HeroProps) {
             <div className="flex-1 w-full flex items-center px-4 py-2 text-left">
               <Compass className="text-brand-turquoise w-5 h-5 flex-shrink-0 mr-3" />
               <div className="flex-1">
-                <label className="block text-[10px] font-bold text-brand-gold uppercase tracking-widest font-sans mb-0.5">Gaya Trip</label>
+                <label className="block text-[10px] font-bold text-brand-gold uppercase tracking-widest font-sans mb-0.5">
+                  {lang === "en" ? "Trip Style" : "Gaya Trip"}
+                </label>
                 <select
                   value={tripType}
                   onChange={(e) => setTripType(e.target.value)}
                   className="w-full text-sm font-semibold text-white focus:outline-none bg-transparent font-sans appearance-none cursor-pointer"
                 >
-                  <option value="all" className="bg-brand-navy text-white">Semua Trip</option>
+                  <option value="all" className="bg-brand-navy text-white">{lang === "en" ? "All Trips" : "Semua Trip"}</option>
                   <option value="private" className="bg-brand-navy text-white">Private Tour</option>
                   <option value="opentrip" className="bg-brand-navy text-white">Open Group</option>
                   <option value="honeymoon" className="bg-brand-navy text-white">Honeymoon</option>
@@ -137,7 +147,7 @@ export default function Hero({ onQuickSearch }: HeroProps) {
                 className="w-full md:w-auto bg-brand-turquoise hover:bg-brand-turquoise/90 text-white rounded-2xl px-8 py-4 font-bold text-xs uppercase tracking-wider transition-all duration-300 shadow-xl shadow-brand-turquoise/10 flex items-center justify-center space-x-2 cursor-pointer transform hover:scale-[1.03] active:scale-95"
               >
                 <Search className="w-4 h-4 text-white" />
-                <span>Cari Paket</span>
+                <span>{lang === "en" ? "Search" : "Cari Paket"}</span>
               </button>
             </div>
           </form>
@@ -145,7 +155,9 @@ export default function Hero({ onQuickSearch }: HeroProps) {
 
         {/* Immersive Trending Quick Tags */}
         <div className="mb-12 flex flex-col md:flex-row items-center justify-center gap-4 text-xs font-sans">
-          <span className="text-slate-400 font-medium uppercase tracking-widest text-[10px]">Destinasi Populer:</span>
+          <span className="text-slate-400 font-medium uppercase tracking-widest text-[10px]">
+            {lang === "en" ? "Popular Destinations:" : "Destinasi Populer:"}
+          </span>
           <div className="flex flex-wrap justify-center gap-2">
             {trendingDestinations.map((dest) => (
               <button
@@ -165,15 +177,15 @@ export default function Hero({ onQuickSearch }: HeroProps) {
         <div className="flex flex-wrap justify-center items-center gap-6 text-xs text-slate-400 font-sans tracking-wider uppercase font-semibold" id="hero-features">
           <span className="flex items-center space-x-2.5 bg-brand-navy/40 px-5 py-2.5 rounded-2xl border border-white/5">
             <span className="w-1.5 h-1.5 rounded-full bg-brand-gold animate-pulse" />
-            <span>Asuransi Jiwa Terjamin</span>
+            <span>{lang === "en" ? "Guaranteed Life Insurance" : "Asuransi Jiwa Terjamin"}</span>
           </span>
           <span className="flex items-center space-x-2.5 bg-brand-navy/40 px-5 py-2.5 rounded-2xl border border-white/5">
             <span className="w-1.5 h-1.5 rounded-full bg-brand-gold animate-pulse" />
-            <span>Bebas Pilih Jadwal</span>
+            <span>{lang === "en" ? "Flexible Schedule Options" : "Bebas Pilih Jadwal"}</span>
           </span>
           <span className="flex items-center space-x-2.5 bg-brand-navy/40 px-5 py-2.5 rounded-2xl border border-white/5">
             <span className="w-1.5 h-1.5 rounded-full bg-brand-gold animate-pulse" />
-            <span>Pemandu Berlisensi HPI</span>
+            <span>{lang === "en" ? "Licensed Tour Guide (HPI)" : "Pemandu Berlisensi HPI"}</span>
           </span>
         </div>
       </div>

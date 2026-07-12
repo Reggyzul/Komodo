@@ -3,65 +3,78 @@ import { Car, Users2, Shield, Calendar, Sparkles, PhoneCall } from "lucide-react
 
 interface FleetProps {
   featuredLimit?: number;
+  lang: "id" | "en";
 }
 
-export default function Fleet({ featuredLimit }: FleetProps) {
+export default function Fleet({ featuredLimit, lang }: FleetProps) {
   const [activeCategory, setActiveCategory] = useState<"all" | "mpv" | "suv" | "bus_grup">("all");
 
   const cars = [
     {
       name: "Innova Reborn",
       category: "Premium MPV",
-      capacity: "7 Penumpang",
+      capacity: lang === "en" ? "7 Passengers" : "7 Penumpang",
       price: "Rp 950.000",
       image: "/assets/innova_reborn.png",
-      tag: "Terfavorit",
-      features: ["AC Double Blower", "Suspensi Sangat Nyaman", "Lapis Kulit", "Driver + BBM"]
+      tag: lang === "en" ? "Most Favorite" : "Terfavorit",
+      features: lang === "en"
+        ? ["AC Double Blower", "Very Comfortable Suspension", "Leather Trim", "Driver + Fuel"]
+        : ["AC Double Blower", "Suspensi Sangat Nyaman", "Lapis Kulit", "Driver + BBM"]
     },
     {
       name: "Hiace Premio",
       category: "Luxury Microbus",
-      capacity: "14 Penumpang",
+      capacity: lang === "en" ? "14 Passengers" : "14 Penumpang",
       price: "Rp 1.600.000",
       image: "/assets/hiace_premio.png",
-      tag: "Grup Sedang",
-      features: ["Kabin Sangat Luas", "Kenyamanan Premium", "Reclining Seat", "Driver + BBM"]
+      tag: lang === "en" ? "Medium Group" : "Grup Sedang",
+      features: lang === "en"
+        ? ["Spacious Cabin", "Premium Comfort", "Reclining Seats", "Driver + Fuel"]
+        : ["Kabin Sangat Luas", "Kenyamanan Premium", "Reclining Seat", "Driver + BBM"]
     },
     {
       name: "Toyota Rush",
       category: "Medium SUV",
-      capacity: "7 Penumpang",
+      capacity: lang === "en" ? "7 Passengers" : "7 Penumpang",
       price: "Rp 850.000",
       image: "/assets/toyota_rush.png",
-      tag: "Tangguh",
-      features: ["Ground Clearance Tinggi", "Gagah & Nyaman", "AC Dingin", "Driver + BBM"]
+      tag: lang === "en" ? "Rugged" : "Tangguh",
+      features: lang === "en"
+        ? ["High Ground Clearance", "Rugged & Comfy", "Cool AC", "Driver + Fuel"]
+        : ["Ground Clearance Tinggi", "Gagah & Nyaman", "AC Dingin", "Driver + BBM"]
     },
     {
       name: "Avanza New",
       category: "Standard MPV",
-      capacity: "7 Penumpang",
+      capacity: lang === "en" ? "7 Passengers" : "7 Penumpang",
       price: "Rp 750.000",
       image: "/assets/avanza_new.png",
-      tag: "Paling Hemat",
-      features: ["Sangat Irit", "AC Dingin", "Bersih & Wangi", "Driver + BBM"]
+      tag: lang === "en" ? "Best Value" : "Paling Hemat",
+      features: lang === "en"
+        ? ["Fuel Efficient", "Cool AC", "Clean & Fresh", "Driver + Fuel"]
+        : ["Sangat Irit", "AC Dingin", "Bersih & Wangi", "Driver + BBM"]
     },
     {
       name: "Calya Facelift",
       category: "Compact MPV",
-      capacity: "5-7 Penumpang",
+      capacity: lang === "en" ? "5-7 Passengers" : "5-7 Penumpang",
       price: "Rp 700.000",
       image: "/assets/calya_facelift.png",
-      tag: "Ekonomis",
-      features: ["Lincah & Gesit", "AC Dingin", "Bagasi Fleksibel", "Driver + BBM"]
+      tag: lang === "en" ? "Economical" : "Ekonomis",
+      features: lang === "en"
+        ? ["Nimble & Agile", "Cool AC", "Flexible Trunk", "Driver + Fuel"]
+        : ["Lincah & Gesit", "AC Dingin", "Bagasi Fleksibel", "Driver + BBM"]
     },
     {
       name: "Bus Medium 35 Seat",
       category: "Big Bus",
-      capacity: "35 Penumpang",
-      price: "Hubungi PIC",
+      capacity: lang === "en" ? "35 Passengers" : "35 Penumpang",
+      price: lang === "en" ? "Contact PIC" : "Hubungi PIC",
       image: "/assets/bus_medium.png",
-      tag: "Rombongan Besar",
-      features: ["Full AC & TV Karaoke", "Bagasi Sangat Luas", "Kru Profesional", "Driver + BBM"]
+      tag: lang === "en" ? "Large Group" : "Rombongan Besar",
+      features: lang === "en"
+        ? ["Full AC & Karaoke TV", "Extra Large Trunk", "Professional Crew", "Driver + Fuel"]
+        : ["Full AC & TV Karaoke", "Bagasi Sangat Luas", "Kru Profesional", "Driver + BBM"]
     }
   ];
 
@@ -80,15 +93,17 @@ export default function Fleet({ featuredLimit }: FleetProps) {
   }, [filteredCars, featuredLimit]);
 
   const getWhatsAppLink = (carName: string) => {
-    const text = `Halo KOMODO KAMU, saya Sammy / PIC. Saya tertarik untuk menyewa armada mobil *${carName}* di Labuan Bajo. Tolong info ketersediaan tanggalnya ya!`;
+    const text = lang === "en"
+      ? `Hello KOMODO KAMU, I am interested in renting the *${carName}* car in Labuan Bajo. Please inform availability dates!`
+      : `Halo KOMODO KAMU, saya tertarik untuk menyewa armada mobil *${carName}* di Labuan Bajo. Tolong info ketersediaan tanggalnya ya!`;
     return `https://wa.me/6282144428975?text=${encodeURIComponent(text)}`;
   };
 
   const categories = [
-    { label: "Semua Armada", value: "all" as const },
-    { label: "Keluarga / MPV", value: "mpv" as const },
-    { label: "SUV / Adventure", value: "suv" as const },
-    { label: "Grup & Bus", value: "bus_grup" as const }
+    { label: lang === "en" ? "All Fleet" : "Semua Armada", value: "all" as const },
+    { label: lang === "en" ? "Family / MPV" : "Keluarga / MPV", value: "mpv" as const },
+    { label: lang === "en" ? "SUV / Adventure" : "SUV / Adventure", value: "suv" as const },
+    { label: lang === "en" ? "Groups & Buses" : "Grup & Bus", value: "bus_grup" as const }
   ];
 
   return (
@@ -103,14 +118,27 @@ export default function Fleet({ featuredLimit }: FleetProps) {
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
           <div className="inline-flex items-center space-x-2 bg-brand-turquoise/10 border border-brand-turquoise/20 px-4 py-1.5 rounded-full text-brand-turquoise text-[10px] font-bold uppercase tracking-widest">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>Lengkap Supir + BBM Mulai dari Rp 700.000 / Hari</span>
+            <span>
+              {lang === "en" ? "Driver + Fuel Included Starting from IDR 700,000 / Day" : "Lengkap Supir + BBM Mulai dari Rp 700.000 / Hari"}
+            </span>
           </div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-light text-brand-navy tracking-tight leading-tight">
-            Armada <span className="italic font-normal text-brand-turquoise">Rental Mobil</span> Labuan Bajo
+            {lang === "en" ? (
+              <>
+                Labuan Bajo <span className="italic font-normal text-brand-turquoise">Car Rental Fleet</span>
+              </>
+            ) : (
+              <>
+                Armada <span className="italic font-normal text-brand-turquoise">Rental Mobil</span> Labuan Bajo
+              </>
+            )}
           </h2>
           <div className="w-20 h-1 bg-brand-turquoise/30 rounded-full mx-auto" />
           <p className="text-slate-600 font-sans font-light text-xs sm:text-sm md:text-base leading-relaxed">
-            Sewa mobil harian prima lengkap dengan BBM & supir berpengalaman di Labuan Bajo. Siap mengantar liburan keluarga, perjalanan bisnis, maupun overland Flores dengan kenyamanan paripurna.
+            {lang === "en"
+              ? "Premium daily car rental complete with fuel & experienced drivers in Labuan Bajo. Ready to facilitate family vacations, business travel, or Flores overland tours with ultimate comfort."
+              : "Sewa mobil harian prima lengkap dengan BBM & supir berpengalaman di Labuan Bajo. Siap mengantar liburan keluarga, perjalanan bisnis, maupun overland Flores dengan kenyamanan paripurna."
+            }
           </p>
         </div>
 
@@ -163,8 +191,12 @@ export default function Fleet({ featuredLimit }: FleetProps) {
 
                 {/* Inclusion tag on image */}
                 <div className="absolute bottom-4 left-4 text-white">
-                  <span className="block text-[8px] font-semibold uppercase tracking-wider text-slate-300">Layanan Prima</span>
-                  <span className="text-sm font-extrabold font-sans text-brand-gold">Sudah Termasuk Supir & BBM</span>
+                  <span className="block text-[8px] font-semibold uppercase tracking-wider text-slate-300">
+                    {lang === "en" ? "Prime Service" : "Layanan Prima"}
+                  </span>
+                  <span className="text-sm font-extrabold font-sans text-brand-gold">
+                    {lang === "en" ? "Driver & Fuel Included" : "Sudah Termasuk Supir & BBM"}
+                  </span>
                 </div>
               </div>
 
@@ -198,7 +230,7 @@ export default function Fleet({ featuredLimit }: FleetProps) {
                   className="w-full flex justify-center items-center space-x-2 bg-brand-navy hover:bg-brand-turquoise text-white text-[10px] sm:text-xs font-bold uppercase tracking-widest py-3.5 rounded-xl shadow-md transition-all duration-300 cursor-pointer"
                 >
                   <PhoneCall className="w-4 h-4" />
-                  <span>Sewa Mobil Sekarang</span>
+                  <span>{lang === "en" ? "Rent Car Now" : "Sewa Mobil Sekarang"}</span>
                 </a>
               </div>
             </div>
