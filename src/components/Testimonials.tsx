@@ -82,6 +82,30 @@ export default function Testimonials({ lang }: { lang: "id" | "en" }) {
         ? "Natural coolness of a hidden crystal clear waterfall flowing among lush Flores greenery."
         : "Kesejukan alami aliran air terjun jernih tersembunyi yang mengalir subur di tengah lebatnya vegetasi Flores.",
       tag: lang === "en" ? "Hidden Gem" : "Hidden Gem"
+    },
+    {
+      src: "/assets/gallery_komodo_gate.jpg",
+      title: lang === "en" ? "Welcome to Komodo National Park" : "Gerbang Taman Nasional Komodo",
+      desc: lang === "en"
+        ? "A memorable group photo under the iconic entry gate of the Komodo National Park reserve."
+        : "Momen kebersamaan rombongan wisatawan berfoto bersama di bawah gerbang batu ikonik Taman Nasional Komodo.",
+      tag: lang === "en" ? "Komodo Island" : "Pulau Komodo"
+    },
+    {
+      src: "/assets/gallery_caci_dance.jpg",
+      title: lang === "en" ? "Cultural Exchange in Manggarai" : "Pertunjukan Caci Adat Manggarai",
+      desc: lang === "en"
+        ? "Foreign tourists standing alongside traditional Caci dancers in Manggarai, sharing the rich cultural heritage."
+        : "Tamu mancanegara berfoto bersama penari Caci adat Manggarai dengan atribut pecut dan tameng khasnya.",
+      tag: lang === "en" ? "Cultural Heritage" : "Warisan Budaya"
+    },
+    {
+      src: "/assets/gallery_padar_peak.jpg",
+      title: lang === "en" ? "Conquering Padar Island Peak" : "Menaklukkan Puncak Pulau Padar",
+      desc: lang === "en"
+        ? "Tourists standing at the high overlook point witnessing the majestic view of Padar Island's three colored bays."
+        : "Wisatawan menikmati keindahan formasi perbukitan dan teluk tiga warna yang spektakuler dari puncak Pulau Padar.",
+      tag: lang === "en" ? "Scenic Trekking" : "Trekking Pemandangan"
     }
   ];
 
