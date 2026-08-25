@@ -48,6 +48,22 @@ export interface Testimonial {
   enDestination?: string;
 }
 
+export interface CarItem {
+  id: string;
+  name: string;
+  category: string;
+  capacity: string;
+  price: string;
+  image: string;
+  tag: string;
+  features: string[];
+  enCapacity?: string;
+  enTag?: string;
+  enFeatures?: string[];
+  sortOrder?: number;
+  isActive?: boolean;
+}
+
 export interface AIActivity {
   time: string;
   activity: string;
@@ -74,3 +90,4 @@ export interface AIItineraryResponse {
   tips: string[];
   recommendedHotels: AIHotelRecommendation[];
 }
+

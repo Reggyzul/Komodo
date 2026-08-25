@@ -63,8 +63,9 @@ app.get("/api/data", async (req: express.Request, res: express.Response): Promis
       return;
     }
 
-    const [destRes, pkgRes, testRes, faqRes, settRes] = await Promise.all([
+    const [destRes, flRes, pkgRes, testRes, faqRes, settRes] = await Promise.all([
       sb.from("destinations").select("*").eq("is_active", true).order("sort_order"),
+      sb.from("fleet").select("*").eq("is_active", true).order("sort_order"),
       sb.from("packages").select("*").eq("is_active", true).order("sort_order"),
       sb.from("testimonials").select("*").eq("is_active", true).order("created_at"),
       sb.from("faqs").select("*").eq("is_active", true).order("sort_order"),
@@ -73,6 +74,7 @@ app.get("/api/data", async (req: express.Request, res: express.Response): Promis
 
     res.json({
       destinations: destRes.data || [],
+      fleet: flRes.data || [],
       packages: pkgRes.data || [],
       testimonials: testRes.data || [],
       faqs: faqRes.data || [],
@@ -273,8 +275,9 @@ async function setupApp() {
         let initialData = null;
 
         if (sb) {
-          const [destRes, pkgRes, testRes, faqRes, settRes] = await Promise.all([
+          const [destRes, flRes, pkgRes, testRes, faqRes, settRes] = await Promise.all([
             sb.from("destinations").select("*").eq("is_active", true).order("sort_order"),
+            sb.from("fleet").select("*").eq("is_active", true).order("sort_order"),
             sb.from("packages").select("*").eq("is_active", true).order("sort_order"),
             sb.from("testimonials").select("*").eq("is_active", true).order("created_at"),
             sb.from("faqs").select("*").eq("is_active", true).order("sort_order"),
@@ -283,6 +286,7 @@ async function setupApp() {
 
           initialData = {
             destinations: destRes.data || [],
+            fleet: flRes.data || [],
             packages: pkgRes.data || [],
             testimonials: testRes.data || [],
             faqs: faqRes.data || [],

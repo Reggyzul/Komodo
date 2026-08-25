@@ -6,12 +6,14 @@ import {
 } from "lucide-react";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminDestinations from "./pages/AdminDestinations";
+import AdminFleet from "./pages/AdminFleet";
 import AdminPackages from "./pages/AdminPackages";
 import AdminTestimonials from "./pages/AdminTestimonials";
 import AdminFAQ from "./pages/AdminFAQ";
 import AdminSettings from "./pages/AdminSettings";
+import { Car } from "lucide-react";
 
-type AdminPage = "dashboard" | "destinations" | "packages" | "testimonials" | "faq" | "settings";
+type AdminPage = "dashboard" | "destinations" | "fleet" | "packages" | "testimonials" | "faq" | "settings";
 
 interface AdminLayoutProps {
   session: any;
@@ -21,6 +23,7 @@ interface AdminLayoutProps {
 const navItems = [
   { id: "dashboard" as AdminPage, label: "Dashboard", icon: LayoutDashboard, color: "text-blue-600" },
   { id: "destinations" as AdminPage, label: "Destinasi", icon: MapPin, color: "text-emerald-600" },
+  { id: "fleet" as AdminPage, label: "Rental Mobil", icon: Car, color: "text-blue-500" },
   { id: "packages" as AdminPage, label: "Paket Trip", icon: Package, color: "text-violet-600" },
   { id: "testimonials" as AdminPage, label: "Testimoni", icon: MessageSquare, color: "text-amber-600" },
   { id: "faq" as AdminPage, label: "FAQ", icon: HelpCircle, color: "text-sky-600" },
@@ -40,6 +43,7 @@ export default function AdminLayout({ session, onLogout }: AdminLayoutProps) {
     switch (currentPage) {
       case "dashboard": return <AdminDashboard />;
       case "destinations": return <AdminDestinations />;
+      case "fleet": return <AdminFleet />;
       case "packages": return <AdminPackages />;
       case "testimonials": return <AdminTestimonials />;
       case "faq": return <AdminFAQ />;

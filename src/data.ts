@@ -317,3 +317,97 @@ export const FAQS = [
   }
 ];
 
+export const DEFAULT_CARS = [
+  {
+    id: "car-1",
+    name: "Innova Reborn",
+    category: "Premium MPV",
+    capacity: "7 Penumpang",
+    enCapacity: "7 Passengers",
+    price: "Rp 950.000",
+    image: "/assets/innova_reborn.png",
+    tag: "Terfavorit",
+    enTag: "Most Favorite",
+    features: ["AC Double Blower", "Suspensi Sangat Nyaman", "Lapis Kulit", "Driver + BBM"],
+    enFeatures: ["AC Double Blower", "Very Comfortable Suspension", "Leather Trim", "Driver + Fuel"],
+    sortOrder: 1,
+    isActive: true
+  },
+  {
+    id: "car-2",
+    name: "Hiace Premio",
+    category: "Luxury Microbus",
+    capacity: "14 Penumpang",
+    enCapacity: "14 Passengers",
+    price: "Rp 1.600.000",
+    image: "/assets/hiace_premio.png",
+    tag: "Grup Sedang",
+    enTag: "Medium Group",
+    features: ["Kabin Sangat Luas", "Kenyamanan Premium", "Reclining Seat", "Driver + BBM"],
+    enFeatures: ["Spacious Cabin", "Premium Comfort", "Reclining Seats", "Driver + Fuel"],
+    sortOrder: 2,
+    isActive: true
+  },
+  {
+    id: "car-3",
+    name: "Toyota Rush",
+    category: "Medium SUV",
+    capacity: "7 Penumpang",
+    enCapacity: "7 Passengers",
+    price: "Rp 850.000",
+    image: "/assets/toyota_rush.png",
+    tag: "Tangguh",
+    enTag: "Rugged",
+    features: ["Ground Clearance Tinggi", "Gagah & Nyaman", "AC Dingin", "Driver + BBM"],
+    enFeatures: ["High Ground Clearance", "Rugged & Comfy", "Cool AC", "Driver + Fuel"],
+    sortOrder: 3,
+    isActive: true
+  },
+  {
+    id: "car-4",
+    name: "Avanza New",
+    category: "Standard MPV",
+    capacity: "7 Penumpang",
+    enCapacity: "7 Passengers",
+    price: "Rp 750.000",
+    image: "/assets/avanza_new.png",
+    tag: "Paling Hemat",
+    enTag: "Best Value",
+    features: ["Sangat Irit", "AC Dingin", "Bersih & Wangi", "Driver + BBM"],
+    enFeatures: ["Fuel Efficient", "Cool AC", "Clean & Fresh", "Driver + Fuel"],
+    sortOrder: 4,
+    isActive: true
+  },
+  {
+    id: "car-5",
+    name: "Calya Facelift",
+    category: "Compact MPV",
+    capacity: "5-7 Penumpang",
+    enCapacity: "5-7 Passengers",
+    price: "Rp 700.000",
+    image: "/assets/calya_facelift.png",
+    tag: "Ekonomis",
+    enTag: "Economical",
+    features: ["Lincah & Gesit", "AC Dingin", "Bagasi Fleksibel", "Driver + BBM"],
+    enFeatures: ["Nimble & Agile", "Cool AC", "Flexible Trunk", "Driver + Fuel"],
+    sortOrder: 5,
+    isActive: true
+  },
+  {
+    id: "car-6",
+    name: "Bus Medium 35 Seat",
+    category: "Big Bus",
+    capacity: "35 Penumpang",
+    enCapacity: "35 Passengers",
+    price: "Hubungi PIC",
+    image: "/assets/bus_medium.png",
+    tag: "Rombongan Besar",
+    enTag: "Large Group",
+    features: ["Full AC & TV Karaoke", "Bagasi Sangat Luas", "Kru Profesional", "Driver + BBM"],
+    enFeatures: ["Full AC & Karaoke TV", "Extra Large Trunk", "Professional Crew", "Driver + Fuel"],
+    sortOrder: 6,
+    isActive: true
+  }
+];
+
+

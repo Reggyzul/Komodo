@@ -1,29 +1,32 @@
 import React, { useEffect, useState } from "react";
 import { supabase } from "../../lib/supabase";
-import { LayoutDashboard, MapPin, Package, MessageSquare, HelpCircle, TrendingUp, Activity } from "lucide-react";
+import { LayoutDashboard, MapPin, Package, MessageSquare, HelpCircle, TrendingUp, Activity, Car } from "lucide-react";
 
 interface Stats {
   destinations: number;
+  fleet: number;
   packages: number;
   testimonials: number;
   faqs: number;
 }
 
 export default function AdminDashboard() {
-  const [stats, setStats] = useState<Stats>({ destinations: 0, packages: 0, testimonials: 0, faqs: 0 });
+  const [stats, setStats] = useState<Stats>({ destinations: 0, fleet: 0, packages: 0, testimonials: 0, faqs: 0 });
   const [loading, setLoading] = useState(true);
   const [keepAliveStatus, setKeepAliveStatus] = useState<"idle" | "ok" | "error">("idle");
 
   useEffect(() => {
     const fetchStats = async () => {
-      const [d, p, t, f] = await Promise.all([
+      const [d, fl, p, t, f] = await Promise.all([
         supabase.from("destinations").select("id", { count: "exact" }),
+        supabase.from("fleet").select("id", { count: "exact" }),
         supabase.from("packages").select("id", { count: "exact" }),
         supabase.from("testimonials").select("id", { count: "exact" }),
         supabase.from("faqs").select("id", { count: "exact" }),
       ]);
       setStats({
         destinations: d.count || 0,
+        fleet: fl.count || 0,
         packages: p.count || 0,
         testimonials: t.count || 0,
         faqs: f.count || 0,
@@ -42,6 +45,7 @@ export default function AdminDashboard() {
 
   const cards = [
     { label: "Destinasi", value: stats.destinations, icon: MapPin, color: "bg-emerald-500", bg: "bg-emerald-50" },
+    { label: "Rental Mobil", value: stats.fleet, icon: Car, color: "bg-blue-500", bg: "bg-blue-50" },
     { label: "Paket Trip", value: stats.packages, icon: Package, color: "bg-violet-500", bg: "bg-violet-50" },
     { label: "Testimoni", value: stats.testimonials, icon: MessageSquare, color: "bg-amber-500", bg: "bg-amber-50" },
     { label: "FAQ", value: stats.faqs, icon: HelpCircle, color: "bg-sky-500", bg: "bg-sky-50" },

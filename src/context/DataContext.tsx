@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import { Destination, TravelPackage, Testimonial } from "../types";
-import { FEATURED_DESTINATIONS, POPULAR_PACKAGES, TESTIMONIALS, FAQS } from "../data";
+import { Destination, TravelPackage, Testimonial, CarItem } from "../types";
+import { FEATURED_DESTINATIONS, POPULAR_PACKAGES, TESTIMONIALS, FAQS, DEFAULT_CARS } from "../data";
 import { supabase } from "../lib/supabase";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -27,6 +27,7 @@ export interface SiteSettings {
 
 export interface SiteData {
   destinations: Destination[];
+  fleet: CarItem[];
   packages: TravelPackage[];
   testimonials: Testimonial[];
   faqs: FAQ[];
@@ -63,6 +64,7 @@ const staticFaqs: FAQ[] = FAQS.map((f) => ({
 
 const defaultData: SiteData = {
   destinations: FEATURED_DESTINATIONS,
+  fleet: DEFAULT_CARS,
   packages: POPULAR_PACKAGES,
   testimonials: TESTIMONIALS,
   faqs: staticFaqs,
@@ -99,6 +101,24 @@ function mapDestination(row: any): Destination {
     enDuration: row.en_duration || row.duration || "1 Day",
     description: row.description || "",
     enDescription: row.en_description || row.description || "",
+  };
+}
+
+function mapCar(row: any): CarItem {
+  return {
+    id: row.id,
+    name: row.name,
+    category: row.category || "MPV",
+    capacity: row.capacity || "7 Penumpang",
+    enCapacity: row.en_capacity || row.capacity || "7 Passengers",
+    price: row.price || "Rp 700.000",
+    image: row.image || "/assets/innova_reborn.png",
+    tag: row.tag || "",
+    enTag: row.en_tag || row.tag || "",
+    features: Array.isArray(row.features) ? row.features : [],
+    enFeatures: Array.isArray(row.en_features) ? row.en_features : (row.features || []),
+    sortOrder: Number(row.sort_order) || 1,
+    isActive: row.is_active !== false,
   };
 }
 
@@ -195,6 +215,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
     try {
       return {
         destinations: (raw.destinations || []).map(mapDestination),
+        fleet: (raw.fleet || []).map(mapCar),
         packages: (raw.packages || []).map(mapPackage),
         testimonials: (raw.testimonials || []).map(mapTestimonial),
         faqs: (raw.faqs || []).map(mapFaq),
@@ -212,9 +233,9 @@ export function DataProvider({ children }: { children: ReactNode }) {
 
   const fetchData = async () => {
     try {
-      // 1. First, try direct Supabase query (works on Cloudflare Pages, local dev, everywhere)
-      const [dRes, pRes, tRes, fRes, sRes] = await Promise.all([
+      const [dRes, flRes, pRes, tRes, fRes, sRes] = await Promise.all([
         supabase.from("destinations").select("*").eq("is_active", true).order("sort_order"),
+        supabase.from("fleet").select("*").eq("is_active", true).order("sort_order"),
         supabase.from("packages").select("*").eq("is_active", true).order("sort_order"),
         supabase.from("testimonials").select("*").eq("is_active", true).order("created_at"),
         supabase.from("faqs").select("*").eq("is_active", true).order("sort_order"),
@@ -225,6 +246,11 @@ export function DataProvider({ children }: { children: ReactNode }) {
         dRes.data && dRes.data.length > 0
           ? dRes.data.map(mapDestination)
           : FEATURED_DESTINATIONS;
+
+      const fleet =
+        flRes.data && flRes.data.length > 0
+          ? flRes.data.map(mapCar)
+          : DEFAULT_CARS;
 
       const packages =
         pRes.data && pRes.data.length > 0
@@ -248,6 +274,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
 
       setData({
         destinations,
+        fleet,
         packages,
         testimonials,
         faqs,
@@ -262,10 +289,8 @@ export function DataProvider({ children }: { children: ReactNode }) {
   };
 
   useEffect(() => {
-    // Direct fetch immediately on mount
     fetchData();
 
-    // Safety timeout: ensure loading screen is dismissed within 2.5s maximum
     const timeout = setTimeout(() => {
       setLoading(false);
     }, 2500);
