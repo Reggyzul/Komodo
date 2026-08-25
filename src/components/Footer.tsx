@@ -201,12 +201,16 @@ export default function Footer({ onNavigate, lang }: FooterProps) {
               : `© ${currentYear} KOMODO KAMU TOUR AND TRAVEL. Hak Cipta Dilindungi Undang-Undang.`
             }
           </p>
-          <div className="flex space-x-6">
+          <div className="flex space-x-6 items-center">
             <a href="#faq" className="hover:text-brand-turquoise transition-colors duration-300">
               {lang === "en" ? "Privacy Policy" : "Kebijakan Privasi"}
             </a>
             <a href="#faq" className="hover:text-brand-turquoise transition-colors duration-300">
               {lang === "en" ? "Terms & Conditions" : "Syarat & Ketentuan"}
+            </a>
+            <a href="/admin" className="text-slate-600 hover:text-brand-gold transition-colors duration-300 flex items-center gap-1">
+              <span>🔐</span>
+              <span>Admin</span>
             </a>
           </div>
         </div>

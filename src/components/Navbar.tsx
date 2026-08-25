@@ -132,15 +132,6 @@ export default function Navbar({ currentPage, onNavigate, lang, setLang }: Navba
             </div>
 
             <a
-              href="/admin"
-              className="hidden lg:flex items-center space-x-1.5 bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white px-3.5 py-2 rounded-full border border-white/10 text-[10px] font-sans font-bold uppercase tracking-wider transition-all"
-              title="Admin CMS Dashboard"
-            >
-              <span>🔐</span>
-              <span>Admin</span>
-            </a>
-
-            <a
               href="https://wa.me/6282144428975?text=Halo%20KOMODO%20KAMU%2C%20saya%20tertarik%20untuk%20konsultasi%20trip%2Frental%20mobil%20di%20Labuan%20Bajo."
               target="_blank"
               rel="noopener noreferrer"
@@ -153,14 +144,7 @@ export default function Navbar({ currentPage, onNavigate, lang, setLang }: Navba
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="md:hidden flex items-center space-x-2">
-            <a
-              href="/admin"
-              className="px-2.5 py-1.5 rounded-lg bg-white/5 border border-white/10 text-xs text-slate-300"
-              title="Admin"
-            >
-              🔐
-            </a>
+          <div className="md:hidden flex items-center">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="p-2 rounded-xl bg-white/5 border border-white/10 text-white hover:bg-white/10 transition-colors"
