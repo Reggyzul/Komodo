@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Search, Calendar, Users, MapPin, ArrowRight, Compass, Sparkles, Navigation } from "lucide-react";
+import { useData } from "../context/DataContext";
 
 interface HeroProps {
   onQuickSearch: (destination: string) => void;
@@ -7,6 +8,9 @@ interface HeroProps {
 }
 
 export default function Hero({ onQuickSearch, lang }: HeroProps) {
+  const { data } = useData();
+  const settings = data?.settings;
+
   const [searchQuery, setSearchQuery] = useState("");
   const [month, setMonth] = useState("");
   const [tripType, setTripType] = useState("all");
@@ -35,6 +39,15 @@ export default function Hero({ onQuickSearch, lang }: HeroProps) {
     { name: "Goa Rangko", label: lang === "en" ? "Natural Blue Pool" : "Kolam Biru Alami" }
   ];
 
+  const heroBg = settings?.hero_bg_image || "/assets/padar_island.png";
+  const heroTitle = lang === "en"
+    ? (settings?.hero_title_en || "Great Adventures With")
+    : (settings?.hero_title_id || "Petualangan Hebat Bersama");
+  const heroSubtitle = lang === "en"
+    ? (settings?.hero_subtitle_en || "KOMODO KAMU is a provider of car rental, boat charter, open trip, and private trip services in Labuan Bajo, serving local and international tourists with prime and reliable service standards.")
+    : (settings?.hero_subtitle_id || "KOMODO KAMU merupakan penyedia jasa rental mobil, sewa kapal, open trip, dan private trip Labuan Bajo yang melayani wisatawan lokal maupun mancanegara dengan standar layanan prima dan andal.");
+  const companyName = settings?.company_name ? `${settings.company_name} TRAVEL` : "KOMODO KAMU TRAVEL";
+
   return (
     <section
       id="home"
@@ -47,7 +60,7 @@ export default function Hero({ onQuickSearch, lang }: HeroProps) {
       {/* Hero Cinematic Image background */}
       <div className="absolute inset-0 z-0">
         <img
-          src="/assets/padar_island.png"
+          src={heroBg}
           alt="Luxury beach paradise travel backdrop"
           className="w-full h-full object-cover object-center opacity-30 scale-105"
         />
@@ -59,18 +72,15 @@ export default function Hero({ onQuickSearch, lang }: HeroProps) {
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         {/* Masterpiece Editorial Headline */}
         <h1 className="font-serif font-light text-4xl sm:text-5xl md:text-6xl lg:text-7xl tracking-tight text-white mb-6 leading-[1.1] max-w-5xl mx-auto" id="hero-title">
-          {lang === "en" ? "Great Adventures With" : "Petualangan Hebat Bersama"} <br />
+          {heroTitle} <br />
           <span className="font-sans font-black uppercase tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-100 to-brand-gold text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
-            KOMODO KAMU TRAVEL
+            {companyName}
           </span>
         </h1>
 
         {/* Highly styled elegant description */}
         <p className="font-sans text-sm sm:text-base md:text-lg text-slate-300 max-w-3xl mx-auto mb-12 leading-relaxed font-light tracking-wide" id="hero-subtitle">
-          {lang === "en"
-            ? "KOMODO KAMU is a provider of car rental, boat charter, open trip, and private trip services in Labuan Bajo, serving local and international tourists with prime and reliable service standards."
-            : "KOMODO KAMU merupakan penyedia jasa rental mobil, sewa kapal, open trip, dan private trip Labuan Bajo yang melayani wisatawan lokal maupun mancanegara dengan standar layanan prima dan andal."
-          }
+          {heroSubtitle}
         </p>
 
         {/* Premium Dark Glass Search Widget */}

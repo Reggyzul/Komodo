@@ -1,5 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { Destination, TravelPackage, Testimonial } from "../types";
+import { FEATURED_DESTINATIONS, POPULAR_PACKAGES, TESTIMONIALS, FAQS } from "../data";
+import { supabase } from "../lib/supabase";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -32,15 +34,45 @@ export interface SiteData {
 }
 
 interface DataContextType {
-  data: SiteData | null;
+  data: SiteData;
   loading: boolean;
   refetch: () => Promise<void>;
 }
 
+// ─── Default / Fallback Data ──────────────────────────────────────────────────
+
+const defaultSettings: SiteSettings = {
+  whatsapp_number: "6282144428975",
+  hero_title_id: "Petualangan Hebat Bersama",
+  hero_title_en: "Great Adventures With",
+  hero_subtitle_id: "KOMODO KAMU merupakan penyedia jasa rental mobil, sewa kapal, open trip, dan private trip Labuan Bajo yang melayani wisatawan lokal maupun mancanegara dengan standar layanan prima dan andal.",
+  hero_subtitle_en: "KOMODO KAMU is a provider of car rental, boat charter, open trip, and private trip services in Labuan Bajo, serving local and international tourists with prime and reliable service standards.",
+  hero_bg_image: "/assets/padar_island.png",
+  company_name: "KOMODO KAMU",
+  company_tagline_id: "Tour and Travel",
+  company_tagline_en: "Tour and Travel",
+};
+
+const staticFaqs: FAQ[] = FAQS.map((f) => ({
+  id: f.id,
+  question: f.question,
+  enQuestion: f.enQuestion,
+  answer: f.answer,
+  enAnswer: f.enAnswer,
+}));
+
+const defaultData: SiteData = {
+  destinations: FEATURED_DESTINATIONS,
+  packages: POPULAR_PACKAGES,
+  testimonials: TESTIMONIALS,
+  faqs: staticFaqs,
+  settings: defaultSettings,
+};
+
 // ─── Context ─────────────────────────────────────────────────────────────────
 
 const DataContext = createContext<DataContextType>({
-  data: null,
+  data: defaultData,
   loading: true,
   refetch: async () => {},
 });
@@ -56,17 +88,17 @@ function mapDestination(row: any): Destination {
     id: row.id,
     name: row.name,
     location: row.location,
-    enLocation: row.en_location,
+    enLocation: row.en_location || row.location,
     image: row.image,
     price: row.price,
-    rating: row.rating,
-    reviewsCount: row.reviews_count,
-    tag: row.tag,
-    enTag: row.en_tag,
-    duration: row.duration,
-    enDuration: row.en_duration,
-    description: row.description,
-    enDescription: row.en_description,
+    rating: Number(row.rating) || 5.0,
+    reviewsCount: Number(row.reviews_count) || 0,
+    tag: row.tag || "Wisata",
+    enTag: row.en_tag || row.tag || "Tour",
+    duration: row.duration || "1 Hari",
+    enDuration: row.en_duration || row.duration || "1 Day",
+    description: row.description || "",
+    enDescription: row.en_description || row.description || "",
   };
 }
 
@@ -74,21 +106,21 @@ function mapPackage(row: any): TravelPackage {
   return {
     id: row.id,
     title: row.title,
-    enTitle: row.en_title,
+    enTitle: row.en_title || row.title,
     destination: row.destination,
-    enDestination: row.en_destination,
+    enDestination: row.en_destination || row.destination,
     duration: row.duration,
-    enDuration: row.en_duration,
+    enDuration: row.en_duration || row.duration,
     price: row.price,
-    oldPrice: row.old_price,
+    oldPrice: row.old_price || undefined,
     image: row.image,
-    rating: row.rating,
-    badge: row.badge,
-    enBadge: row.en_badge,
-    description: row.description,
-    enDescription: row.en_description,
-    inclusions: row.inclusions || [],
-    enInclusions: row.en_inclusions || [],
+    rating: Number(row.rating) || 5.0,
+    badge: row.badge || undefined,
+    enBadge: row.en_badge || row.badge || undefined,
+    description: row.description || "",
+    enDescription: row.en_description || row.description || "",
+    inclusions: Array.isArray(row.inclusions) ? row.inclusions : [],
+    enInclusions: Array.isArray(row.en_inclusions) ? row.en_inclusions : (row.inclusions || []),
   };
 }
 
@@ -96,14 +128,14 @@ function mapTestimonial(row: any): Testimonial {
   return {
     id: row.id,
     name: row.name,
-    role: row.role,
-    enRole: row.en_role,
+    role: row.role || "Traveler",
+    enRole: row.en_role || row.role || "Traveler",
     image: row.image,
     content: row.content,
-    enContent: row.en_content,
-    rating: row.rating,
-    destination: row.destination,
-    enDestination: row.en_destination,
+    enContent: row.en_content || row.content,
+    rating: Number(row.rating) || 5,
+    destination: row.destination || "Labuan Bajo",
+    enDestination: row.en_destination || row.destination || "Labuan Bajo",
   };
 }
 
@@ -111,25 +143,29 @@ function mapFaq(row: any): FAQ {
   return {
     id: row.id,
     question: row.question,
-    enQuestion: row.en_question,
+    enQuestion: row.en_question || row.question,
     answer: row.answer,
-    enAnswer: row.en_answer,
+    enAnswer: row.en_answer || row.answer,
   };
 }
 
 function mapSettings(rows: any[]): SiteSettings {
   const map: Record<string, string> = {};
-  rows.forEach((r) => { map[r.key] = r.value || ""; });
+  if (Array.isArray(rows)) {
+    rows.forEach((r) => {
+      if (r && r.key) map[r.key] = r.value || "";
+    });
+  }
   return {
-    whatsapp_number: map.whatsapp_number || "6282144428975",
-    hero_title_id: map.hero_title_id || "Petualangan Hebat Bersama",
-    hero_title_en: map.hero_title_en || "Great Adventures With",
-    hero_subtitle_id: map.hero_subtitle_id || "",
-    hero_subtitle_en: map.hero_subtitle_en || "",
-    hero_bg_image: map.hero_bg_image || "/assets/padar_island.png",
-    company_name: map.company_name || "KOMODO KAMU",
-    company_tagline_id: map.company_tagline_id || "Tour and Travel",
-    company_tagline_en: map.company_tagline_en || "Tour and Travel",
+    whatsapp_number: map.whatsapp_number || defaultSettings.whatsapp_number,
+    hero_title_id: map.hero_title_id || defaultSettings.hero_title_id,
+    hero_title_en: map.hero_title_en || defaultSettings.hero_title_en,
+    hero_subtitle_id: map.hero_subtitle_id || defaultSettings.hero_subtitle_id,
+    hero_subtitle_en: map.hero_subtitle_en || defaultSettings.hero_subtitle_en,
+    hero_bg_image: map.hero_bg_image || defaultSettings.hero_bg_image,
+    company_name: map.company_name || defaultSettings.company_name,
+    company_tagline_id: map.company_tagline_id || defaultSettings.company_tagline_id,
+    company_tagline_en: map.company_tagline_en || defaultSettings.company_tagline_en,
   };
 }
 
@@ -137,7 +173,6 @@ function mapSettings(rows: any[]): SiteSettings {
 function PageLoader() {
   return (
     <div className="min-h-screen bg-brand-navy flex flex-col items-center justify-center gap-4">
-      {/* Animated komodo-wave rings */}
       <div className="relative w-16 h-16">
         <div className="absolute inset-0 rounded-full border-4 border-brand-turquoise/30 animate-ping" />
         <div className="absolute inset-2 rounded-full border-4 border-brand-turquoise border-t-transparent animate-spin" />
@@ -152,8 +187,8 @@ function PageLoader() {
 // ─── Provider ─────────────────────────────────────────────────────────────────
 
 export function DataProvider({ children }: { children: ReactNode }) {
-  // Check for SSR-injected data first — if present, skip loading entirely
-  const rawSsr = (window as any).__INITIAL_DATA__;
+  // Check for SSR-injected data first
+  const rawSsr = typeof window !== "undefined" ? (window as any).__INITIAL_DATA__ : null;
 
   const parseSsr = (raw: any): SiteData | null => {
     if (!raw) return null;
@@ -172,61 +207,73 @@ export function DataProvider({ children }: { children: ReactNode }) {
 
   const ssrParsed = parseSsr(rawSsr);
 
-  // If SSR data exists → use it immediately, no loading flash
-  // If no SSR data → stay null/loading until API fetch completes
-  const [data, setData] = useState<SiteData | null>(ssrParsed);
+  const [data, setData] = useState<SiteData>(ssrParsed || defaultData);
   const [loading, setLoading] = useState<boolean>(!ssrParsed);
 
   const fetchData = async () => {
-    if (!loading) setLoading(true);
     try {
-      const res = await fetch("/api/data");
-      if (!res.ok) throw new Error(`API error ${res.status}`);
-      const json = await res.json();
+      // 1. First, try direct Supabase query (works on Cloudflare Pages, local dev, everywhere)
+      const [dRes, pRes, tRes, fRes, sRes] = await Promise.all([
+        supabase.from("destinations").select("*").eq("is_active", true).order("sort_order"),
+        supabase.from("packages").select("*").eq("is_active", true).order("sort_order"),
+        supabase.from("testimonials").select("*").eq("is_active", true).order("created_at"),
+        supabase.from("faqs").select("*").eq("is_active", true).order("sort_order"),
+        supabase.from("site_settings").select("*"),
+      ]);
+
+      const destinations =
+        dRes.data && dRes.data.length > 0
+          ? dRes.data.map(mapDestination)
+          : FEATURED_DESTINATIONS;
+
+      const packages =
+        pRes.data && pRes.data.length > 0
+          ? pRes.data.map(mapPackage)
+          : POPULAR_PACKAGES;
+
+      const testimonials =
+        tRes.data && tRes.data.length > 0
+          ? tRes.data.map(mapTestimonial)
+          : TESTIMONIALS;
+
+      const faqs =
+        fRes.data && fRes.data.length > 0
+          ? fRes.data.map(mapFaq)
+          : staticFaqs;
+
+      const settings =
+        sRes.data && sRes.data.length > 0
+          ? mapSettings(sRes.data)
+          : defaultSettings;
 
       setData({
-        destinations: (json.destinations || []).map(mapDestination),
-        packages: (json.packages || []).map(mapPackage),
-        testimonials: (json.testimonials || []).map(mapTestimonial),
-        faqs: (json.faqs || []).map(mapFaq),
-        settings: mapSettings(json.settings || []),
+        destinations,
+        packages,
+        testimonials,
+        faqs,
+        settings,
       });
     } catch (err) {
-      console.error("DataContext: fetch failed", err);
-      // Do NOT fall back to static data — keep data null so UI renders nothing
-      // rather than showing stale/mismatched images
+      console.warn("DataContext: Supabase fetch error, fallback active:", err);
+      setData((prev) => prev || defaultData);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    if (ssrParsed) {
-      // SSR already resolved → silently refetch in background after 2s to stay fresh
-      const t = setTimeout(() => {
-        fetch("/api/data")
-          .then((r) => r.ok ? r.json() : null)
-          .then((json) => {
-            if (!json) return;
-            setData({
-              destinations: (json.destinations || []).map(mapDestination),
-              packages: (json.packages || []).map(mapPackage),
-              testimonials: (json.testimonials || []).map(mapTestimonial),
-              faqs: (json.faqs || []).map(mapFaq),
-              settings: mapSettings(json.settings || []),
-            });
-          })
-          .catch(() => {/* silently ignore background refresh errors */});
-      }, 2000);
-      return () => clearTimeout(t);
-    } else {
-      // No SSR data → must fetch before showing anything
-      fetchData();
-    }
+    // Direct fetch immediately on mount
+    fetchData();
+
+    // Safety timeout: ensure loading screen is dismissed within 2.5s maximum
+    const timeout = setTimeout(() => {
+      setLoading(false);
+    }, 2500);
+
+    return () => clearTimeout(timeout);
   }, []);
 
-  // Block render until real data arrives
-  if (loading || !data) {
+  if (loading && !data) {
     return <PageLoader />;
   }
 
