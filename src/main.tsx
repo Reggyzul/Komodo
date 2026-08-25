@@ -1,28 +1,49 @@
-import { StrictMode } from "react";
+import React, { StrictMode, useState, useEffect } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
+import { DataProvider } from "./context/DataContext";
+import App from "./App";
+import AdminApp from "./admin/AdminApp";
 
-// Route: /admin → AdminApp, everything else → main App with DataProvider
-const isAdmin = window.location.pathname.startsWith("/admin");
-
-if (isAdmin) {
-  import("./admin/AdminApp").then(({ default: AdminApp }) => {
-    createRoot(document.getElementById("root")!).render(
-      <StrictMode>
-        <AdminApp />
-      </StrictMode>
+function RootRouter() {
+  const checkIsAdmin = () => {
+    if (typeof window === "undefined") return false;
+    return (
+      window.location.pathname.startsWith("/admin") ||
+      window.location.hash.startsWith("#admin") ||
+      window.location.search.includes("admin")
     );
-  });
-} else {
-  import("./App").then(({ default: App }) => {
-    import("./context/DataContext").then(({ DataProvider }) => {
-      createRoot(document.getElementById("root")!).render(
-        <StrictMode>
-          <DataProvider>
-            <App />
-          </DataProvider>
-        </StrictMode>
-      );
-    });
-  });
+  };
+
+  const [isAdmin, setIsAdmin] = useState(checkIsAdmin);
+
+  useEffect(() => {
+    const handleLocationChange = () => {
+      setIsAdmin(checkIsAdmin());
+    };
+
+    window.addEventListener("popstate", handleLocationChange);
+    window.addEventListener("hashchange", handleLocationChange);
+
+    return () => {
+      window.removeEventListener("popstate", handleLocationChange);
+      window.removeEventListener("hashchange", handleLocationChange);
+    };
+  }, []);
+
+  if (isAdmin) {
+    return <AdminApp />;
+  }
+
+  return (
+    <DataProvider>
+      <App />
+    </DataProvider>
+  );
 }
+
+createRoot(document.getElementById("root")!).render(
+  <StrictMode>
+    <RootRouter />
+  </StrictMode>
+);

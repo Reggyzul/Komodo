@@ -108,6 +108,15 @@ export default function Footer({ onNavigate, lang }: FooterProps) {
                   </li>
                 );
               })}
+              <li>
+                <a
+                  href="/admin"
+                  className="inline-flex items-center space-x-1.5 text-brand-gold/80 hover:text-brand-gold font-sans text-xs transition-colors font-medium"
+                >
+                  <span>🔐</span>
+                  <span>{lang === "en" ? "Admin CMS Portal" : "Admin CMS Dashboard"}</span>
+                </a>
+              </li>
             </ul>
           </div>
 
