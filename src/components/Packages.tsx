@@ -1,6 +1,6 @@
 import React from "react";
 import { CheckCircle2, Clock, MapPin, Star, Sparkles } from "lucide-react";
-import { POPULAR_PACKAGES } from "../data";
+import { useData } from "../context/DataContext";
 import { TravelPackage } from "../types";
 
 interface PackagesProps {
@@ -10,7 +10,9 @@ interface PackagesProps {
 }
 
 export default function Packages({ onSelectPackage, featuredLimit, lang }: PackagesProps) {
-  const displayedPackages = featuredLimit ? POPULAR_PACKAGES.slice(0, featuredLimit) : POPULAR_PACKAGES;
+  const { data } = useData();
+  const allPackages = data?.packages || [];
+  const displayedPackages = featuredLimit ? allPackages.slice(0, featuredLimit) : allPackages;
 
   return (
     <section id="packages" className="py-32 bg-brand-sand text-slate-900 relative overflow-hidden">

@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from "react";
 import { MapPin, Star, Clock, ArrowRight, Search, Heart, Compass, CompassIcon } from "lucide-react";
-import { FEATURED_DESTINATIONS } from "../data";
+import { useData } from "../context/DataContext";
 import { Destination } from "../types";
 
 interface DestinationsProps {
@@ -12,6 +12,8 @@ interface DestinationsProps {
 }
 
 export default function Destinations({ onSelectDestination, searchTerm, onClearSearch, featuredLimit, lang }: DestinationsProps) {
+  const { data } = useData();
+  const allDestinations = data?.destinations || [];
   const [activeCategory, setActiveCategory] = useState<"all" | "national_park" | "islands" | "land_caves">("all");
   const [innerSearch, setInnerSearch] = useState("");
   const [favorites, setFavorites] = useState<string[]>([]);
@@ -29,7 +31,7 @@ export default function Destinations({ onSelectDestination, searchTerm, onClearS
   const activeSearch = searchTerm || innerSearch;
 
   const filteredDestinations = useMemo(() => {
-    return FEATURED_DESTINATIONS.filter((dest) => {
+    return allDestinations.filter((dest) => {
       if (activeCategory === "national_park") {
         const isNP = dest.location.includes("Taman Nasional");
         if (!isNP) return false;

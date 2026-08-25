@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { Star, Quote, Sparkles, X, Maximize2 } from "lucide-react";
-import { TESTIMONIALS } from "../data";
+import { useData } from "../context/DataContext";
 
 export default function Testimonials({ lang }: { lang: "id" | "en" }) {
+  const { data } = useData();
+  const testimonials = data?.testimonials || [];
   const [selectedImage, setSelectedImage] = useState<{
     src: string;
     title: string;
@@ -214,7 +216,7 @@ export default function Testimonials({ lang }: { lang: "id" | "en" }) {
 
         {/* Testimonials Grid (More Compact) */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="testimonials-grid">
-          {TESTIMONIALS.map((test) => {
+          {testimonials.map((test) => {
             const currentContent = lang === "en" && test.enContent ? test.enContent : test.content;
             const currentRole = lang === "en" && test.enRole ? test.enRole : test.role;
             const currentDestination = lang === "en" && test.enDestination ? test.enDestination : test.destination;

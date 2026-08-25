@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { ChevronDown, ChevronUp, HelpCircle, Sparkles } from "lucide-react";
-import { FAQS } from "../data";
+import { useData } from "../context/DataContext";
 
 export default function FAQ({ lang }: { lang: "id" | "en" }) {
-  const [openId, setOpenId] = useState<string | null>("faq-1");
+  const { data } = useData();
+  const faqs = data?.faqs || [];
+  const [openId, setOpenId] = useState<string | null>(null);
 
   const toggleFAQ = (id: string) => {
     setOpenId(openId === id ? null : id);
@@ -52,7 +54,7 @@ export default function FAQ({ lang }: { lang: "id" | "en" }) {
 
         {/* Accordion List */}
         <div className="space-y-5" id="faq-accordion-list">
-          {FAQS.map((faq) => {
+          {faqs.map((faq) => {
             const isOpen = openId === faq.id;
             const currentQuestion = lang === "en" && faq.enQuestion ? faq.enQuestion : faq.question;
             const currentAnswer = lang === "en" && faq.enAnswer ? faq.enAnswer : faq.answer;
